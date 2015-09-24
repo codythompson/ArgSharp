@@ -1,0 +1,1 @@
+﻿ArgDef.getNameFromArgLables - throw a custom exception when argLabels has less than 1 element
