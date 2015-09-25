@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SharpParse
 {
@@ -29,14 +30,14 @@ namespace SharpParse
          */
         private string getNameFromArgLabels()
         {
-            if (argLabels.Count() < 1)
+            if (argLabels.Count < 1)
             {
                 throw new Exception(); // TODO use a custom exception
             }
 
             int lastMax = 0;
             int lastMaxI = -1;
-            for (int i = 0; i < argLabels.Count(); i++)
+            for (int i = 0; i < argLabels.Count; i++)
             {
                 string trimmedLabel = argLabels[i].Trim('-');
                 if (trimmedLabel.Length > lastMax) {
@@ -45,7 +46,7 @@ namespace SharpParse
                 }
             }
 
-            return argLabels[i].Trim('-');
+            return argLabels[lastMaxI].Trim('-');
         }
     }
 }

@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgDef.cs" />
     <Compile Include="ArgumentParser.cs" />
     <Compile Include="SharpParseException.cs" />
     <Compile Include="ParsedArgs.cs" />
