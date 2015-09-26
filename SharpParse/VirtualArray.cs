@@ -10,6 +10,14 @@ namespace SharpParse
         {
             get { return end - start; }
         }
+        public int startIndexInclusive
+        {
+            get { return start; }
+        }
+        public int endIndexExclusive
+        {
+            get { return end; }
+        }
 
         private T[] baseArray;
         private int start, end;
