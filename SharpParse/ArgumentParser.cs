@@ -19,6 +19,7 @@ namespace SharpParse
 
         public virtual void addArgDef(ArgDef argDef)
         {
+            argDef.init();
             argDefs.Add(argDef);
         }
 
@@ -36,7 +37,7 @@ namespace SharpParse
                 }
             }
 
-            // throw new NotImplementedException();
+            throw new NotImplementedException();
             return null;
         }
     }
