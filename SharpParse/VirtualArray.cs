@@ -33,6 +33,10 @@ namespace SharpParse
 
         public void resize(int startIndexInclusive, int endIndexExclusive)
         {
+            if (startIndexInclusive > endIndexExclusive)
+            {
+                throw new ArgumentException(); // TODO use a custom exception here
+            }
             if (startIndexInclusive < 0 || endIndexExclusive > baseArray.Length)
             {
                 throw new IndexOutOfRangeException(); // TODO use a custom exception here
@@ -115,6 +119,18 @@ namespace SharpParse
             {
                 yield return get(i);
             }
+        }
+
+        public override string ToString()
+        {
+            string str = "VirtualArray [";
+            foreach (T t in this)
+            {
+                str += string.Format("{0}, ", t);
+            }
+            str += "]";
+
+            return str;
         }
 
         /*

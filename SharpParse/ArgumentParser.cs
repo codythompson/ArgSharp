@@ -10,35 +10,98 @@ namespace SharpParse
         public bool printErrorMessageOnArgDefRuleFail = true;
         //
 
-        public List<ArgDef> argDefs;
+        private List<ArgDef> labeledArgDefs;
+        private List<ArgDef> orderedArgDefs;
+        private int orderedArgDefIx;
 
         public ArgumentParser()
         {
-            argDefs = new List<ArgDef>();
+            labeledArgDefs = new List<ArgDef>();
+            orderedArgDefs = new List<ArgDef>();
         }
 
         public virtual void addArgDef(ArgDef argDef)
         {
-            argDef.init();
-            argDefs.Add(argDef);
+            if (argDef.isOrderedArg())
+            {
+                orderedArgDefs.Add(argDef);
+            }
+            else
+            {
+                labeledArgDefs.Add(argDef);
+            }
         }
 
         public virtual ParsedArgs parseArgs(string[] args)
         {
-            for(int i = 0; i < args.Length; i++)
+            orderedArgDefIx = 0;
+
+            initArgDefs();
+            VirtualArray<string> vArgs = new VirtualArray<string>(args);
+            while (vArgs.length > 0)
             {
-                string arg = args[i];
-                foreach (ArgDef def in argDefs)
+                bool argConsumed = false;
+                for (int i = 0; !argConsumed && i < labeledArgDefs.Count; i++)
                 {
-                    if (def.labelMatch(arg))
+                    ArgDef def = labeledArgDefs[i];
+                    argConsumed = def.consume(vArgs);
+
+                    // test crap
+                    if (argConsumed)
                     {
-                        Console.WriteLine(string.Format("Matched arg {0}", def.name));
+                        Console.WriteLine(string.Format("LArg '{0}' was consumed", def.name));
                     }
+                    //
+
+                    if (def.errorOccured())
+                    {
+                        Console.WriteLine("Parse error occurred - largs"); // TODO usage + error messages
+                        vArgs.moveStart(vArgs.endIndexExclusive); // this exits the outer while loop
+                    }
+                }
+                if (!argConsumed)
+                {
+                    if (orderedArgDefIx >= orderedArgDefs.Count)
+                    {
+                        Console.WriteLine(string.Format("Unable to find def for arg '{0}'", vArgs[0]));
+                        break;
+                    }
+
+                    ArgDef oDef = orderedArgDefs[orderedArgDefIx];
+                    argConsumed = oDef.consume(vArgs);
+                    orderedArgDefIx++;
+
+                    if (!argConsumed)
+                    {
+                        Console.WriteLine("Parse error occurred - oargs"); // TODO usage + error messages
+                        vArgs.moveStart(vArgs.endIndexExclusive); // this exits the outer while loop
+                    }
+
+                    // test crap
+                    else
+                    {
+                        Console.WriteLine(string.Format("OArg '{0}' was consumed", oDef.name));
+                    }
+                    //
                 }
             }
 
             throw new NotImplementedException();
-            return null;
+        }
+
+        /*
+         * helpers
+         */
+        private void initArgDefs()
+        {
+            foreach (ArgDef def in labeledArgDefs)
+            {
+                def.parseInit();
+            }
+            foreach (ArgDef def in orderedArgDefs)
+            {
+                def.parseInit();
+            }
         }
     }
 }
