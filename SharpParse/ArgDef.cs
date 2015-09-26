@@ -6,7 +6,7 @@ namespace SharpParse
     public class ArgDef
     {
         public List<string> argLabels;
-        public char labelPrefixes = char [] {'-'};
+        public char[] labelPrefixes = new char [] {'-'};
         public int argValCount = 1;
         public Type type = typeof(string);
         public object defaultValue;
@@ -18,12 +18,24 @@ namespace SharpParse
             argLabels = new List<string>();
         }
 
-        public void init()
+        public virtual void init()
         {
             if (name == null)
             {
                 name = getNameFromArgLabels();
             }
+        }
+
+        public virtual bool labelMatch(string arg)
+        {
+            foreach (string label in argLabels)
+            {
+                if (arg == label)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /*
