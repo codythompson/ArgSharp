@@ -6,6 +6,7 @@ namespace SharpParse
     public class ArgDef
     {
         public List<string> argLabels;
+        public char labelPrefixes = char [] {'-'};
         public int argValCount = 1;
         public Type type = typeof(string);
         public object defaultValue;
@@ -39,14 +40,14 @@ namespace SharpParse
             int lastMaxI = -1;
             for (int i = 0; i < argLabels.Count; i++)
             {
-                string trimmedLabel = argLabels[i].Trim('-');
+                string trimmedLabel = argLabels[i].Trim(labelPrefixes);
                 if (trimmedLabel.Length > lastMax) {
                     lastMax = trimmedLabel.Length;
                     lastMaxI = i;
                 }
             }
 
-            return argLabels[lastMaxI].Trim('-');
+            return argLabels[lastMaxI].Trim(labelPrefixes);
         }
     }
 }
