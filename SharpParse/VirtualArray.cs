@@ -52,9 +52,19 @@ namespace SharpParse
             resize(start, endIndexExclusive);
         }
 
+        public void moveStartBy(int amount)
+        {
+            moveStart(start + amount);
+        }
+
+        public void moveEndBy(int amount)
+        {
+            moveEnd(end + amount);
+        }
+
         public bool isInBounds(int index)
         {
-            return index < 0 || index >= length;
+            return index >= 0 && index < length;
         }
 
         public T get(int index)
