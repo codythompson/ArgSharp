@@ -1,1 +1,2 @@
 ﻿ArgDef.getNameFromArgLables - throw a custom exception when argLabels has less than 1 element
+VirtualArray - throw a custom exception instead of index out of bounds
