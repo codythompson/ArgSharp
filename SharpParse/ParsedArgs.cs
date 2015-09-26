@@ -5,11 +5,19 @@ namespace SharpParse
 {
     public class ParsedArgs
     {
+        public List<string> errorMessages;
+
         Dictionary<string, object> args;
 
         public ParsedArgs()
         {
+            errorMessages = new List<string>();
             args = new Dictionary<string, object>();
+        }
+
+        public bool errorOccured()
+        {
+            return errorMessages.Count > 0;
         }
 
         public void add(string key, object obj)
