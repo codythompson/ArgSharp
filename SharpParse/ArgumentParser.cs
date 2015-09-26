@@ -5,6 +5,11 @@ namespace SharpParse
 {
     public class ArgumentParser
     {
+        // options
+        public bool printUsageOnArgDefRuleFail = true;
+        public bool printErrorMessageOnArgDefRuleFail = true;
+        //
+
         public List<ArgDef> argDefs;
 
         public ArgumentParser()
@@ -17,9 +22,9 @@ namespace SharpParse
             argDefs.Add(argDef);
         }
 
-        public virtual ParsedArgs parseArgs(string[] args, bool printUsageOnFail = true, bool printErrorMessageOnFail = true, bool exitOnFail = true)
+        public virtual ParsedArgs parseArgs(string[] args)
         {
-            throw new NotImplementedException("parseArgs not implemented yet.");
+            throw new NotImplementedException();
         }
     }
 }
