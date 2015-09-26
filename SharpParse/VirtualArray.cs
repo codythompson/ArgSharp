@@ -44,10 +44,14 @@ namespace SharpParse
             resize(start, endIndexExclusive);
         }
 
+        public bool isInBounds(int index)
+        {
+            return index < 0 || index >= length;
+        }
 
         public T get(int index)
         {
-            if (index < 0 || index >= length)
+            if (!isInBounds(index))
             {
                 throw new IndexOutOfRangeException(); // TODO use a custom exception here
             }
@@ -57,7 +61,7 @@ namespace SharpParse
 
         public void set(T element, int index)
         {
-            if (index < 0 || index >= length)
+            if (!isInBounds(index))
             {
                 throw new IndexOutOfRangeException(); // TODO use a custom exception here
             }
