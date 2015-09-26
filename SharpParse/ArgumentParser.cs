@@ -24,7 +24,20 @@ namespace SharpParse
 
         public virtual ParsedArgs parseArgs(string[] args)
         {
-            throw new NotImplementedException();
+            for(int i = 0; i < args.Length; i++)
+            {
+                string arg = args[i];
+                foreach (ArgDef def in argDefs)
+                {
+                    if (def.labelMatch(arg))
+                    {
+                        Console.WriteLine(string.Format("Matched arg {0}", def.name));
+                    }
+                }
+            }
+
+            // throw new NotImplementedException();
+            return null;
         }
     }
 }
