@@ -7,6 +7,13 @@ namespace SharpParseExampleProj
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("args received: ");
+            foreach (string arg in args)
+            {
+                Console.WriteLine(arg);
+            }
+            Console.WriteLine("------------");
+
             ArgDef optionA = new ArgDef();
             optionA.argLabels.Add("-a");
             optionA.argLabels.Add("-optiona");
@@ -27,6 +34,8 @@ namespace SharpParseExampleProj
             {
                 Console.WriteLine("Caught Not Implemented Exception");
             }
+
+            Console.ReadKey();
         }
     }
 }

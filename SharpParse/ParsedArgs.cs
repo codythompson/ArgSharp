@@ -15,6 +15,21 @@ namespace SharpParse
             args = new Dictionary<string, object>();
         }
 
+        public void addErrorMessage(string message)
+        {
+            errorMessages.Add(message);
+        }
+        
+        public void addErrorMessages(List<string> messages)
+        {
+            errorMessages.AddRange(messages);
+        }
+
+        public List<string> getErrorMessages()
+        {
+            return errorMessages;
+        }
+
         public bool errorOccured()
         {
             return errorMessages.Count > 0;

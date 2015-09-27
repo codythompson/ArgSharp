@@ -6,13 +6,12 @@ namespace SharpParse
     public class ArgumentParser
     {
         // options
-        public bool printUsageOnArgDefRuleFail = true;
-        public bool printErrorMessageOnArgDefRuleFail = true;
+        public bool printUsageOnInvalidArgs = true;
+        public bool printErrorMessageOnInvalidArgs = true;
         //
 
         private List<ArgDef> labeledArgDefs;
         private List<ArgDef> orderedArgDefs;
-        private int orderedArgDefIx;
 
         public ArgumentParser()
         {
@@ -34,10 +33,14 @@ namespace SharpParse
 
         public virtual ParsedArgs parseArgs(string[] args)
         {
-            orderedArgDefIx = 0;
-
+            // setup stuff
+            ParsedArgs pArgs = new ParsedArgs();
+            int orderedArgDefIx = 0;
             initArgDefs();
             VirtualArray<string> vArgs = new VirtualArray<string>(args);
+            //
+
+            
             while (vArgs.length > 0)
             {
                 bool argConsumed = false;
@@ -49,13 +52,13 @@ namespace SharpParse
                     // test crap
                     if (argConsumed)
                     {
-                        Console.WriteLine(string.Format("LArg '{0}' was consumed", def.name));
+                        Console.WriteLine(string.Format("[TEMP DEBUG] LArg '{0}' was consumed", def.name));
                     }
                     //
 
                     if (def.errorOccured())
                     {
-                        Console.WriteLine("Parse error occurred - largs"); // TODO usage + error messages
+                        pArgs.addErrorMessages(def.getErrorMessages());
                         vArgs.moveStart(vArgs.endIndexExclusive); // this exits the outer while loop
                     }
                 }
@@ -63,7 +66,7 @@ namespace SharpParse
                 {
                     if (orderedArgDefIx >= orderedArgDefs.Count)
                     {
-                        Console.WriteLine(string.Format("Unable to find def for arg '{0}'", vArgs[0]));
+                        pArgs.addErrorMessage("Encountered more args than expected.");
                         break;
                     }
 
@@ -71,21 +74,38 @@ namespace SharpParse
                     argConsumed = oDef.consume(vArgs);
                     orderedArgDefIx++;
 
-                    if (!argConsumed)
+                    if (oDef.errorOccured())
                     {
-                        Console.WriteLine("Parse error occurred - oargs"); // TODO usage + error messages
+                        pArgs.addErrorMessages(oDef.getErrorMessages());
+                        vArgs.moveStart(vArgs.endIndexExclusive); // this exits the outer while loop
+                    }
+                    else if (!argConsumed)
+                    {
+
+                        pArgs.addErrorMessage(string.Format("Unable to use arg '{0}'", vArgs[0]));
                         vArgs.moveStart(vArgs.endIndexExclusive); // this exits the outer while loop
                     }
 
                     // test crap
                     else
                     {
-                        Console.WriteLine(string.Format("OArg '{0}' was consumed", oDef.name));
+                        Console.WriteLine(string.Format("[Temp Debug] OArg '{0}' was consumed", oDef.name));
                     }
                     //
                 }
-            }
+            } // end while
 
+            if (pArgs.errorOccured())
+            {
+                if (printErrorMessageOnInvalidArgs)
+                {
+                    foreach (string message in pArgs.getErrorMessages())
+                    {
+                        Console.WriteLine(message);
+                    }
+                }
+                // TODO print usage
+            }
             throw new NotImplementedException();
         }
 
