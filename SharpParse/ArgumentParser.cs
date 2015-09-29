@@ -9,14 +9,20 @@ namespace SharpParse
         public bool printUsageOnInvalidArgs = true;
         public bool printErrorMessageOnInvalidArgs = true;
         //
-
+        
         private List<ArgDef> labeledArgDefs;
         private List<ArgDef> orderedArgDefs;
+        public Dictionary<Type, ArgTypeConverter> converters;
 
         public ArgumentParser()
         {
             labeledArgDefs = new List<ArgDef>();
             orderedArgDefs = new List<ArgDef>();
+            converters = new Dictionary<Type, ArgTypeConverter>();
+            foreach (KeyValuePair<Type, ArgTypeConverter> kvp in ArgTypeConverter.basicConverters)
+            {
+                converters.Add(kvp.Key, kvp.Value);
+            }
         }
 
         public virtual void addArgDef(ArgDef argDef)
@@ -116,11 +122,23 @@ namespace SharpParse
         {
             foreach (ArgDef def in labeledArgDefs)
             {
-                def.parseInit();
+                def.parseInit(converters);
             }
             foreach (ArgDef def in orderedArgDefs)
             {
-                def.parseInit();
+                def.parseInit(converters);
+            }
+        }
+
+        private void finishArgDefs()
+        {
+            foreach (ArgDef def in labeledArgDefs)
+            {
+                def.parseFinish();
+            }
+            foreach (ArgDef def in orderedArgDefs)
+            {
+                def.parseFinish();
             }
         }
     }

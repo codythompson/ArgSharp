@@ -13,12 +13,14 @@ namespace SharpParse
         public Type type = typeof(string);
         public object defaultValue;
         public string helpMessage = "";
+        public int minAllowedInstances = 0;
         public int maxAllowedInstances = 1;
         public string name;
         // end options
 
         private int instanceCount;
         private List<string> errorMessages;
+        private Dictionary<Type, ArgTypeConverter> converters;
 
         public ArgDef()
         {
@@ -26,30 +28,37 @@ namespace SharpParse
             errorMessages = new List<string>();
         }
 
-        public virtual void parseInit()
+        public virtual void parseInit(Dictionary<Type, ArgTypeConverter> typeConverters)
         {
-            // if argLabels is empty then this is an ordered arg
-            // if this is an ordered arg then:
-            //   maxAllowedInstances must = 1
+            converters = typeConverters;
+            if (!typeConverters.ContainsKey(type))
+            {
+                throw new Exception(); // todo custom exception
+            }
 
             if (name == null)
             {
                 name = getNameFromArgLabels();
+                if (name == null)
+                {
+                    throw new Exception(); // todo custom exception
+                }
             }
             instanceCount = 0;
             errorMessages.Clear();
+            if (isOrderedArg())
+            {
+                argCount = 1;
+                minAllowedInstances = 1;
+                maxAllowedInstances = 1;
+                // TODO throw an excpetion here instead of fixing the values
+            }
         }
 
         public virtual bool consume(VirtualArray<string> vArgs)
         {
-            if (!isOrderedArg() && !labelMatch(vArgs[0]))
+            if (!isConsumeable(vArgs))
             {
-                return false; // this isn't the arg we're looking for
-            }
-
-            if (++instanceCount > maxAllowedInstances)
-            {
-                errorMessages.Add(string.Format("Encountered the option '{0}' too many times. (only allowed {1} time(s))", name, maxAllowedInstances));
                 return false;
             }
 
@@ -59,6 +68,21 @@ namespace SharpParse
             }
             vArgs.moveStartBy(argCount);
             return true;
+        }
+
+        public virtual void parseFinish()
+        {
+            if (instanceCount < minAllowedInstances)
+            {
+                if (minAllowedInstances == 1)
+                {
+                    errorMessages.Add(string.Format("The '{0}' argument is required."));
+                }
+                else
+                {
+                    errorMessages.Add(string.Format("The '{0}' argument must be provided at least {1} times.", name, minAllowedInstances));
+                }
+            }
         }
 
         /*
@@ -98,7 +122,7 @@ namespace SharpParse
         {
             if (argLabels.Count < 1)
             {
-                throw new Exception(); // TODO use a custom exception
+                return null;
             }
 
             int lastMax = 0;
@@ -113,6 +137,62 @@ namespace SharpParse
             }
 
             return argLabels[lastMaxI].Trim(labelPrefixes);
+        }
+
+        private bool isConsumeable(VirtualArray<string> vArgs)
+        {
+            if (vArgs.length <= 0)
+            {
+                throw new ArgumentException("vArgs must have a length of at least 1."); // TODO custom argument
+            }
+
+            if (!isOrderedArg() && !labelMatch(vArgs[0]))
+            {
+                return false; // this isn't the arg we're looking for
+            }
+
+            if (++instanceCount > maxAllowedInstances)
+            {
+                errorMessages.Add(string.Format("Encountered the option '{0}' too many times. (only allowed {1} time(s))", name, maxAllowedInstances));
+                return false;
+            }
+
+            if (!argCountIsRemainderOfArgs && vArgs.length < argCount)
+            {
+                errorMessages.Add(string.Format("The option '{0}' expects {1} following arguments, only {2} were encountered.", name, argCount, vArgs.length - 1));
+            }
+
+            if (type != typeof(string))
+            {
+                object dummyObj;
+                if (isOrderedArg())
+                {
+                    if (!converters[type].tryConvert(vArgs[0], type, out dummyObj))
+                    {
+                        errorMessages.Add(string.Format("The '{0}' argument expects an argument of type '{1}', unable to parse '{2}'.", name, type, vArgs[0]));
+                        return false;
+                    }
+                }
+                else
+                {
+                    int lastIx = argCount - 1;
+                    if (argCountIsRemainderOfArgs)
+                    {
+                        lastIx = vArgs.length - 1;
+                    }
+                    for (int i = 1; i <= lastIx; i++)
+                    {
+                        if (!converters[type].tryConvert(vArgs[i], type, out dummyObj))
+                        {
+                            errorMessages.Add(string.Format("The '{0}' argument expects an argument of type '{1}', unable to parse '{2}'.", name, type, vArgs[i]));
+                            return false;
+                        }
+                    }
+                }
+
+            }
+
+            return true;
         }
     }
 }

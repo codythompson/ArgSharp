@@ -18,11 +18,17 @@ namespace SharpParseExampleProj
             optionA.argLabels.Add("-a");
             optionA.argLabels.Add("-optiona");
 
+            ArgDef optionB = new ArgDef();
+            optionB.argLabels.Add("-y");
+            optionB.argCount = 3;
+            optionB.type = typeof(int);
+
             ArgDef orderedA = new ArgDef();
             orderedA.name = "orderedA";
 
             ArgumentParser argParser = new ArgumentParser();
             argParser.addArgDef(optionA);
+            argParser.addArgDef(optionB);
             argParser.addArgDef(orderedA);
 
             ParsedArgs pArgs;
@@ -32,7 +38,7 @@ namespace SharpParseExampleProj
             }
             catch (NotImplementedException)
             {
-                Console.WriteLine("Caught Not Implemented Exception");
+                Console.WriteLine("[Temp debug] Caught Not Implemented Exception");
             }
 
             Console.ReadKey();
