@@ -12,16 +12,16 @@ namespace SharpParse
         
         private List<ArgDef> labeledArgDefs;
         private List<ArgDef> orderedArgDefs;
-        public Dictionary<Type, ArgTypeConverter> converters;
+        public Dictionary<Type, ArgTypeParser> typeParsers;
 
         public ArgumentParser()
         {
             labeledArgDefs = new List<ArgDef>();
             orderedArgDefs = new List<ArgDef>();
-            converters = new Dictionary<Type, ArgTypeConverter>();
-            foreach (KeyValuePair<Type, ArgTypeConverter> kvp in ArgTypeConverter.basicConverters)
+            typeParsers = new Dictionary<Type, ArgTypeParser>();
+            foreach (KeyValuePair<Type, ArgTypeParser> kvp in ArgTypeParser.basicParsers)
             {
-                converters.Add(kvp.Key, kvp.Value);
+                typeParsers.Add(kvp.Key, kvp.Value);
             }
         }
 
@@ -122,11 +122,11 @@ namespace SharpParse
         {
             foreach (ArgDef def in labeledArgDefs)
             {
-                def.parseInit(converters);
+                def.parseInit(typeParsers);
             }
             foreach (ArgDef def in orderedArgDefs)
             {
-                def.parseInit(converters);
+                def.parseInit(typeParsers);
             }
         }
 

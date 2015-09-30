@@ -20,7 +20,7 @@ namespace SharpParse
 
         private int instanceCount;
         private List<string> errorMessages;
-        private Dictionary<Type, ArgTypeConverter> converters;
+        private Dictionary<Type, ArgTypeParser> typeParsers;
 
         public ArgDef()
         {
@@ -28,10 +28,10 @@ namespace SharpParse
             errorMessages = new List<string>();
         }
 
-        public virtual void parseInit(Dictionary<Type, ArgTypeConverter> typeConverters)
+        public virtual void parseInit(Dictionary<Type, ArgTypeParser> typeParsers)
         {
-            converters = typeConverters;
-            if (!typeConverters.ContainsKey(type))
+            this.typeParsers = typeParsers;
+            if (!typeParsers.ContainsKey(type))
             {
                 throw new Exception(); // todo custom exception
             }
@@ -167,7 +167,7 @@ namespace SharpParse
                 object dummyObj;
                 if (isOrderedArg())
                 {
-                    if (!converters[type].tryConvert(vArgs[0], type, out dummyObj))
+                    if (!typeParsers[type].tryConvert(vArgs[0], type, out dummyObj))
                     {
                         errorMessages.Add(string.Format("The '{0}' argument expects an argument of type '{1}', unable to parse '{2}'.", name, type, vArgs[0]));
                         return false;
@@ -182,7 +182,7 @@ namespace SharpParse
                     }
                     for (int i = 1; i <= lastIx; i++)
                     {
-                        if (!converters[type].tryConvert(vArgs[i], type, out dummyObj))
+                        if (!typeParsers[type].tryConvert(vArgs[i], type, out dummyObj))
                         {
                             errorMessages.Add(string.Format("The '{0}' argument expects an argument of type '{1}', unable to parse '{2}'.", name, type, vArgs[i]));
                             return false;

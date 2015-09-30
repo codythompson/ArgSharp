@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace SharpParse
 {
-    public abstract class ArgTypeConverter
+    public abstract class ArgTypeParser
     {
-        public static Dictionary<Type, ArgTypeConverter> basicConverters;
-        static ArgTypeConverter()
+        public static Dictionary<Type, ArgTypeParser> basicParsers;
+        static ArgTypeParser()
         {
-            basicConverters = new Dictionary<Type, ArgTypeConverter>();
-            basicConverters.Add(typeof(string), new stringConverter());
-            basicConverters.Add(typeof(int), new intConverter());
-            basicConverters.Add(typeof(double), new doubleConverter());
-            basicConverters.Add(typeof(bool), new boolConverter());
+            basicParsers = new Dictionary<Type, ArgTypeParser>();
+            basicParsers.Add(typeof(string), new stringParser());
+            basicParsers.Add(typeof(int), new intParser());
+            basicParsers.Add(typeof(double), new doubleParser());
+            basicParsers.Add(typeof(bool), new boolParser());
         }
         
 
         public abstract bool tryConvert(string arg, Type type, out object result);
     }
 
-    public class stringConverter : ArgTypeConverter
+    public class stringParser : ArgTypeParser
     {
         public override bool tryConvert(string arg, Type type, out object result)
         {
@@ -35,7 +35,7 @@ namespace SharpParse
         }
     }
 
-    public class intConverter : ArgTypeConverter
+    public class intParser : ArgTypeParser
     {
         public override bool tryConvert(string arg, Type type, out object result)
         {
@@ -50,7 +50,7 @@ namespace SharpParse
         }
     }
 
-    public class doubleConverter : ArgTypeConverter
+    public class doubleParser : ArgTypeParser
     {
         public override bool tryConvert(string arg, Type type, out object result)
         {
@@ -65,7 +65,7 @@ namespace SharpParse
         }
     }
 
-    public class boolConverter : ArgTypeConverter
+    public class boolParser : ArgTypeParser
     {
         public override bool tryConvert(string arg, Type type, out object result)
         {
