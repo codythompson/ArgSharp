@@ -5,17 +5,20 @@ namespace SharpParse
 {
     public class ArgumentParser
     {
+        public string progName;
         // options
         public bool printUsageOnInvalidArgs = true;
         public bool printErrorMessageOnInvalidArgs = true;
+        public bool oneLineUsage = true;
         //
         
         private List<ArgDef> labeledArgDefs;
         private List<ArgDef> orderedArgDefs;
         public Dictionary<Type, ArgTypeParser> typeParsers;
 
-        public ArgumentParser()
+        public ArgumentParser(string progName)
         {
+            this.progName = progName;
             labeledArgDefs = new List<ArgDef>();
             orderedArgDefs = new List<ArgDef>();
             typeParsers = new Dictionary<Type, ArgTypeParser>();
@@ -110,9 +113,31 @@ namespace SharpParse
                         Console.WriteLine(message);
                     }
                 }
-                // TODO print usage
+                if (printUsageOnInvalidArgs)
+                {
+                    Console.WriteLine(getUsageString());
+                }
             }
             throw new NotImplementedException();
+        }
+
+        public string getUsageString()
+        {
+            string usage = "USAGE:\nprogName";
+            string sep = "\n";
+            if (oneLineUsage)
+            {
+                sep = " ";
+            }
+            foreach (ArgDef def in labeledArgDefs)
+            {
+                usage += sep + def.getUsageString(false);
+            }
+            foreach (ArgDef def in orderedArgDefs)
+            {
+                usage += sep + def.getUsageString(false);
+            }
+            return usage;
         }
 
         /*

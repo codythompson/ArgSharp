@@ -26,7 +26,7 @@ namespace SharpParseExampleProj
             ArgDef orderedA = new ArgDef();
             orderedA.name = "orderedA";
 
-            ArgumentParser argParser = new ArgumentParser();
+            ArgumentParser argParser = new ArgumentParser("testprog");
             argParser.addArgDef(optionA);
             argParser.addArgDef(optionB);
             argParser.addArgDef(orderedA);

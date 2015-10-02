@@ -117,7 +117,20 @@ namespace SharpParse
 
         public string getUsageString(bool appendHelpString)
         {
-            string usage = name;
+            // TODO better use of [] for multi label options
+            string usage;
+            if (isOrderedArg())
+            {
+                usage = name;
+            }
+            else
+            {
+                usage = argLabels[0];
+                for (int i = 1; i < argLabels.Count; i++)
+                {
+                    usage += " | " + argLabels[i];
+                }
+            }
             for (int i = 1; i < argCount; i++)
             {
                 usage += string.Format(" {0}_val_{1}", name, i);
@@ -130,7 +143,7 @@ namespace SharpParse
                 }
                 else
                 {
-                    usage = string.Format("[]", usage);
+                    usage = string.Format("[{0}]", usage);
                 }
             }
 
