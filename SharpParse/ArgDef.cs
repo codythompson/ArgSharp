@@ -115,6 +115,33 @@ namespace SharpParse
             return errorMessages;
         }
 
+        public string getUsageString(bool appendHelpString)
+        {
+            string usage = name;
+            for (int i = 1; i < argCount; i++)
+            {
+                usage += string.Format(" {0}_val_{1}", name, i);
+            }
+            if (!isOrderedArg())
+            {
+                if (minAllowedInstances > 0)
+                {
+                    usage = string.Format("<{0}>", usage);
+                }
+                else
+                {
+                    usage = string.Format("[]", usage);
+                }
+            }
+
+            if (appendHelpString)
+            {
+                usage += "\n" + helpMessage;
+            }
+
+            return usage;
+        }
+
         /*
          * helpers
          */
