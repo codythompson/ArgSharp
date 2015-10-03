@@ -53,6 +53,10 @@ namespace SharpParse
                 maxAllowedInstances = 1;
                 // TODO throw an excpetion here instead of fixing the values
             }
+            else if (argCount == 0 && type != typeof(bool))
+            {
+                throw new Exception(); // todo custom exception
+            }
         }
 
         public virtual bool consume(VirtualArray<string> vArgs)
@@ -233,6 +237,38 @@ namespace SharpParse
             }
 
             return true;
+        }
+
+        private object getValue(VirtualArray<string> vArgs)
+        {
+            if (argCount == 0)
+            {
+                if (instanceCount > 0)
+                {
+                    return true;
+                }
+            }
+
+            if (argCount == 0 && !argCountIsRemainderOfArgs)
+            {
+                object val;
+                typeParsers[type].tryConvert(vArgs[0], type, out val);
+                return val;
+            }
+
+            int lastIx = argCount;
+            if (argCountIsRemainderOfArgs)
+            {
+                lastIx = vArgs.length - 1;
+            }
+            object[] vals = new object[lastIx];
+            for (int i = 1; i <= lastIx; i++)
+            {
+                object val;
+                typeParsers[type].tryConvert(vArgs[i], type, out val);
+                vals[i - 1] = val;
+            }
+            return vals;
         }
     }
 }
