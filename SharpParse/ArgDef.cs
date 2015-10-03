@@ -8,7 +8,7 @@ namespace SharpParse
         // options
         public List<string> argLabels;
         public char[] labelPrefixes = new char [] {'-'};
-        public int argCount = 1;
+        public int argCount = 0;
         public bool argCountIsRemainderOfArgs = false;
         public Type type = typeof(string);
         public object defaultValue;
@@ -48,7 +48,7 @@ namespace SharpParse
             errorMessages.Clear();
             if (isOrderedArg())
             {
-                argCount = 1;
+                argCount = 0;
                 minAllowedInstances = 1;
                 maxAllowedInstances = 1;
                 // TODO throw an excpetion here instead of fixing the values
@@ -66,7 +66,7 @@ namespace SharpParse
             {
                 vArgs.moveStart(vArgs.endIndexExclusive);
             }
-            vArgs.moveStartBy(argCount);
+            vArgs.moveStartBy(argCount + 1);
             return true;
         }
 
@@ -131,9 +131,9 @@ namespace SharpParse
                     usage += " | " + argLabels[i];
                 }
             }
-            for (int i = 1; i < argCount; i++)
+            for (int i = 0; i < argCount; i++)
             {
-                usage += string.Format(" {0}_val_{1}", name, i);
+                usage += string.Format(" {0}_val_{1}", name, i + 1);
             }
             if (!isOrderedArg())
             {
@@ -197,7 +197,7 @@ namespace SharpParse
                 return false;
             }
 
-            if (!argCountIsRemainderOfArgs && vArgs.length < argCount)
+            if (!argCountIsRemainderOfArgs && vArgs.length < argCount + 1)
             {
                 errorMessages.Add(string.Format("The option '{0}' expects {1} following arguments, only {2} were encountered.", name, argCount, vArgs.length - 1));
             }
@@ -215,7 +215,7 @@ namespace SharpParse
                 }
                 else
                 {
-                    int lastIx = argCount - 1;
+                    int lastIx = argCount;
                     if (argCountIsRemainderOfArgs)
                     {
                         lastIx = vArgs.length - 1;

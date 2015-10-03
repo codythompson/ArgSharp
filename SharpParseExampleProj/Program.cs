@@ -20,7 +20,7 @@ namespace SharpParseExampleProj
 
             ArgDef optionB = new ArgDef();
             optionB.argLabels.Add("-y");
-            optionB.argCount = 3;
+            optionB.argCount = 2;
             optionB.type = typeof(int);
 
             ArgDef orderedA = new ArgDef();
