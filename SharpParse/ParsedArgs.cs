@@ -77,9 +77,21 @@ namespace SharpParse
             return getValue<double>(key);
         }
 
-        public List<T> getList<T>(string key)
+        public T[] getArray<T>(string key)
         {
-            return getValue<List<T>>(key);
+            object[] vals = getValue<object[]>(key);
+            T[] pVals = new T[vals.Length];
+            int i = 0;
+            foreach (object val in vals)
+            {
+                if (!(val is T))
+                {
+                    throw new ParsedArgsWrongTypeException(key, typeof(T)); // TODO make this list specific
+                }
+                pVals[i] = (T)val;
+                i++;
+            }
+            return pVals;
         }
     }
 
