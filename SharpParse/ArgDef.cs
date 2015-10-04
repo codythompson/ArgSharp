@@ -55,16 +55,25 @@ namespace SharpParse
             }
             else if (argCount == 0 && type != typeof(bool))
             {
-                throw new Exception(); // todo custom exception
+                if (type == typeof(string))
+                {
+                    type = typeof(bool);
+                }
+                else if (type != typeof(bool))
+                {
+                    throw new Exception(); // todo custom exception
+                }
             }
         }
 
-        public virtual bool consume(VirtualArray<string> vArgs)
+        public virtual bool consume(VirtualArray<string> vArgs, ParsedArgs pArgs)
         {
             if (!isConsumeable(vArgs))
             {
                 return false;
             }
+
+            pArgs.add(name, getValue(vArgs));
 
             if (argCountIsRemainderOfArgs)
             {
@@ -74,7 +83,7 @@ namespace SharpParse
             return true;
         }
 
-        public virtual void parseFinish()
+        public virtual void parseFinish(ParsedArgs pArgs)
         {
             if (instanceCount < minAllowedInstances)
             {
@@ -86,6 +95,11 @@ namespace SharpParse
                 {
                     errorMessages.Add(string.Format("The '{0}' argument must be provided at least {1} times.", name, minAllowedInstances));
                 }
+                return;
+            }
+            if (instanceCount == 0)
+            {
+                pArgs.add(name, defaultValue);
             }
         }
 
@@ -241,7 +255,7 @@ namespace SharpParse
 
         private object getValue(VirtualArray<string> vArgs)
         {
-            if (argCount == 0)
+            if (argCount == 0 && type == typeof(bool))
             {
                 if (instanceCount > 0)
                 {

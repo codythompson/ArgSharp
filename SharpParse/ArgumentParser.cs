@@ -56,7 +56,7 @@ namespace SharpParse
                 for (int i = 0; !argConsumed && i < labeledArgDefs.Count; i++)
                 {
                     ArgDef def = labeledArgDefs[i];
-                    argConsumed = def.consume(vArgs);
+                    argConsumed = def.consume(vArgs, pArgs);
 
                     // test crap
                     if (argConsumed)
@@ -80,7 +80,7 @@ namespace SharpParse
                     }
 
                     ArgDef oDef = orderedArgDefs[orderedArgDefIx];
-                    argConsumed = oDef.consume(vArgs);
+                    argConsumed = oDef.consume(vArgs, pArgs);
                     orderedArgDefIx++;
 
                     if (oDef.errorOccured())
@@ -118,7 +118,11 @@ namespace SharpParse
                     Console.WriteLine(getUsageString());
                 }
             }
-            throw new NotImplementedException();
+            else
+            {
+                finishArgDefs(pArgs);
+            }
+            return pArgs;
         }
 
         public string getUsageString()
@@ -155,15 +159,15 @@ namespace SharpParse
             }
         }
 
-        private void finishArgDefs()
+        private void finishArgDefs(ParsedArgs pArgs)
         {
             foreach (ArgDef def in labeledArgDefs)
             {
-                def.parseFinish();
+                def.parseFinish(pArgs);
             }
             foreach (ArgDef def in orderedArgDefs)
             {
-                def.parseFinish();
+                def.parseFinish(pArgs);
             }
         }
     }

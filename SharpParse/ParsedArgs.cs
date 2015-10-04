@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace SharpParse
@@ -92,6 +93,47 @@ namespace SharpParse
                 i++;
             }
             return pVals;
+        }
+
+        public override string ToString()
+        {
+            string str = "'ParsedArgs': {\n";
+            int i = 0;
+            foreach (KeyValuePair<string, object> kvp in args)
+            {
+                string sep = ",";
+                string valQuotes = "'";
+                object val = kvp.Value;
+                object type = kvp.Value.GetType();
+                if (val is object[])
+                {
+                    valQuotes = "";
+                    object[] arrVal = (object[])val;
+                    string strVal = "[\n";
+                    if (arrVal.Length > 0)
+                    {
+                        type = arrVal[0].GetType().ToString() + "[]";
+                    }
+                    for (int j = 0; j < arrVal.Length; j++)
+                    {
+                        string subSep = ",";
+                        if (j == arrVal.Length - 1)
+                        {
+                            subSep = "";
+                        }
+                        strVal += string.Format("    '{0}'{1}\n", arrVal[j], subSep);
+                    }
+                    strVal += "  ]\n";
+                    val = strVal;
+                }
+                if (i == args.Count - 1)
+                {
+                    sep = "";
+                }
+                str += string.Format("'{0}': {{'type': '{1}', 'value': {4}{2}{4}}}{3}\n", kvp.Key, type, val, sep, valQuotes);
+            }
+            str += "}";
+            return str;
         }
     }
 
