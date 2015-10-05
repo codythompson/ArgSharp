@@ -87,7 +87,7 @@ namespace SharpParse
             {
                 if (!(val is T))
                 {
-                    throw new ParsedArgsWrongTypeException(key, typeof(T)); // TODO make this list specific
+                    throw new ParsedArgsWrongTypeException(key, typeof(T[]));
                 }
                 pVals[i] = (T)val;
                 i++;
