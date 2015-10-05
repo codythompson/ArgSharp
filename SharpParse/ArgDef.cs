@@ -33,7 +33,7 @@ namespace SharpParse
             this.typeParsers = typeParsers;
             if (!typeParsers.ContainsKey(type))
             {
-                throw new Exception(); // todo custom exception
+                throw new ArgDefBadOptionsException(string.Format("Can't use type '{0}', no matching ArgTypeParser found.", type));
             }
 
             if (name == null)
@@ -41,7 +41,7 @@ namespace SharpParse
                 name = getNameFromArgLabels();
                 if (name == null)
                 {
-                    throw new Exception(); // todo custom exception
+                    throw new ArgDefBadOptionsException(string.Format("At least one argLabel or a name must be provided."));
                 }
             }
             instanceCount = 0;
@@ -61,7 +61,7 @@ namespace SharpParse
                 }
                 else if (type != typeof(bool))
                 {
-                    throw new Exception(); // todo custom exception
+                    throw new ArgDefBadOptionsException(string.Format("Only type 'bool' is allowed for 0 argCount non-ordered args (args without any argLabels)"));
                 }
             }
         }
@@ -201,7 +201,7 @@ namespace SharpParse
         {
             if (vArgs.length <= 0)
             {
-                throw new ArgumentException("vArgs must have a length of at least 1."); // TODO custom argument
+                throw new ArgDefException(string.Format("vArgs must have a length of at least 1. If you encounter this exception, something went wrong in ArgumentParser.parseArgs."));
             }
 
             if (!isOrderedArg() && !labelMatch(vArgs[0]))
@@ -284,5 +284,15 @@ namespace SharpParse
             }
             return vals;
         }
+    }
+
+    public class ArgDefException : SharpParseException
+    {
+        public ArgDefException(string message) : base(message) {}
+    }
+
+    public class ArgDefBadOptionsException : ArgDefException
+    {
+        public ArgDefBadOptionsException(string message) : base(message) {}
     }
 }
