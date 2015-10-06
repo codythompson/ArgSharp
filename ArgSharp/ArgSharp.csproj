@@ -42,7 +42,7 @@
     <Compile Include="ArgDef.cs" />
     <Compile Include="ArgTypeParser.cs" />
     <Compile Include="ArgumentParser.cs" />
-    <Compile Include="SharpParseException.cs" />
+    <Compile Include="ArgSharpException.cs" />
     <Compile Include="ParsedArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VirtualArray.cs" />
