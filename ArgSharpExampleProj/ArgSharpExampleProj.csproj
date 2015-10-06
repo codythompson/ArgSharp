@@ -48,9 +48,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharpParse\SharpParse.csproj">
+    <ProjectReference Include="..\SharpParse\ArgSharp.csproj">
       <Project>{40cd5654-6fda-4673-b30f-d85e0ed1223e}</Project>
-      <Name>SharpParse</Name>
+      <Name>ArgSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

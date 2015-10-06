@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Windows Desktop
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpParse", "SharpParse\SharpParse.csproj", "{40CD5654-6FDA-4673-B30F-D85E0ED1223E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgSharp", "SharpParse\ArgSharp.csproj", "{40CD5654-6FDA-4673-B30F-D85E0ED1223E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgSharpExampleProj", "ArgSharpExampleProj\ArgSharpExampleProj.csproj", "{44F5DB97-3A74-45BE-A671-CC1C49E9C384}"
 EndProject
