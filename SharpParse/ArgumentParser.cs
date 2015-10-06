@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SharpParse
+namespace ArgSharp
 {
     public class ArgumentParser
     {

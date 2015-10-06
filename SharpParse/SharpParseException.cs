@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SharpParse
+namespace ArgSharp
 {
     public class SharpParseException : Exception
     {

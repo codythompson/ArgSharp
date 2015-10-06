@@ -7,7 +7,7 @@
     <ProjectGuid>{40CD5654-6FDA-4673-B30F-D85E0ED1223E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpParse</RootNamespace>
+    <RootNamespace>ArgSharp</RootNamespace>
     <AssemblyName>SharpParse</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
