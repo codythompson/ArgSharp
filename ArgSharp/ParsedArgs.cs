@@ -137,7 +137,7 @@ namespace ArgSharp
         }
     }
 
-    public class ParsedArgsException : SharpParseException 
+    public class ParsedArgsException : ArgSharpException 
     {
         public ParsedArgsException(string message) : base(message) {}
     }
