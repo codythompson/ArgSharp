@@ -7,7 +7,7 @@
     <ProjectGuid>{44F5DB97-3A74-45BE-A671-CC1C49E9C384}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpParseExampleProj</RootNamespace>
+    <RootNamespace>ArgSharpExampleProj</RootNamespace>
     <AssemblyName>SharpParseExampleProj</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
