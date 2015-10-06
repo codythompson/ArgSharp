@@ -1,7 +1,7 @@
 ﻿using System;
 using ArgSharp;
 
-namespace SharpParseExampleProj
+namespace ArgSharpExampleProj
 {
     class Program
     {
