@@ -13,8 +13,9 @@ namespace ArgSharp
         public Type type = typeof(string);
         public object defaultValue;
         public string helpMessage = "";
-        public int minAllowedInstances = 0;
-        public int maxAllowedInstances = 1;
+        //public int minAllowedInstances = 0;
+        //public int maxAllowedInstances = 1;
+        public bool required = false;
         public string name;
         // end options
 
@@ -48,10 +49,11 @@ namespace ArgSharp
             errorMessages.Clear();
             if (isOrderedArg())
             {
-                argCount = 0;
-                minAllowedInstances = 1;
-                maxAllowedInstances = 1;
-                // TODO throw an excpetion here instead of fixing the values
+                if (argCount > 0)
+                {
+                    throw new ArgDefBadOptionsException(string.Format("An ordered arg must have an argCount of 0."));
+                }
+                required = true;
             }
             else if (argCount == 0 && type != typeof(bool))
             {
@@ -85,16 +87,9 @@ namespace ArgSharp
 
         public virtual void parseFinish(ParsedArgs pArgs)
         {
-            if (instanceCount < minAllowedInstances)
+            if (instanceCount < 1 && required)
             {
-                if (minAllowedInstances == 1)
-                {
-                    errorMessages.Add(string.Format("The '{0}' argument is required."));
-                }
-                else
-                {
-                    errorMessages.Add(string.Format("The '{0}' argument must be provided at least {1} times.", name, minAllowedInstances));
-                }
+                errorMessages.Add(string.Format("The '{0}' argument is required."));
                 return;
             }
             if (instanceCount == 0)
@@ -155,7 +150,7 @@ namespace ArgSharp
             }
             if (!isOrderedArg())
             {
-                if (minAllowedInstances > 0)
+                if (required)
                 {
                     usage = string.Format("<{0}>", usage);
                 }
@@ -209,9 +204,9 @@ namespace ArgSharp
                 return false; // this isn't the arg we're looking for
             }
 
-            if (++instanceCount > maxAllowedInstances)
+            if (++instanceCount > 1)
             {
-                errorMessages.Add(string.Format("Encountered the option '{0}' too many times. (only allowed {1} time(s))", name, maxAllowedInstances));
+                errorMessages.Add(string.Format("Encountered the option '{0}' more than once.", name));
                 return false;
             }
 
