@@ -145,6 +145,89 @@ namespace ArgSharpTests
             testDef.type = typeof(double);
             testDef.parseInit(ArgTypeParser.basicParsers);
         }
+
+        /*
+         * The following test the private isConsumeable method via consume
+         */
+        [TestMethod]
+        [ExpectedException(typeof(ArgDefException), "[ArgDef][consume] An exception should be thrown when the length of vArgs is less than 1")]
+        public void consumeTestNoVArgs()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.name = "test";
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[]{}, 0, 0);
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+        }
+        [TestMethod]
+        public void consumeTestFalseOnNoLabelMatch()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.argLabels.Add("-test");
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] {"-nottest"}, 0, 1);
+            ParsedArgs pArgs = new ParsedArgs();
+            bool result = testDef.consume(vArgs, pArgs);
+            Assert.IsFalse(result, "[ArgDef][consume] consume should return false when no label matches the input");
+        }
+        [TestMethod]
+        public void consumeTestMultipleOptionEncounters()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.argLabels.AddRange(new string[]{"-test", "-t"});
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] {"-test", "-t"}, 0, 2);
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            bool result2 = testDef.consume(vArgs, pArgs);
+            bool errors = testDef.errorOccured();
+            Assert.AreEqual<bool>(false, result2, "[ArgDef][consume] consume should return false when a label is encountered twice.");
+            Assert.IsTrue(errors, "[ArgDef][consume] consume should generate an error message when a label is encountered twice.");
+        }
+        [TestMethod]
+        public void consumeTestWrongNumberOfFollowingArgs()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.argLabels.Add("-test");
+            testDef.argCount = 2;
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { "-test", "a" }, 0, 2);
+            ParsedArgs pArgs = new ParsedArgs();
+            bool result = testDef.consume(vArgs, pArgs);
+            bool errors = testDef.errorOccured();
+            Assert.IsFalse(result, "[ArgDef][consume] consume should return false when there are less remaining args than argCount.");
+            Assert.IsTrue(errors, "[ArgDef][consume] consume should generate an error message when there are less remaining args than argCount.");
+        }
+        [TestMethod]
+        public void consumeTestLabelEncounteredWrongType()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.argLabels.Add("-test");
+            testDef.argCount = 1;
+            testDef.type = typeof(int);
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { "-test", "a" }, 0, 2);
+            ParsedArgs pArgs = new ParsedArgs();
+            bool result = testDef.consume(vArgs, pArgs);
+            bool errors = testDef.errorOccured();
+            Assert.IsFalse(result, "[ArgDef][consume] consume should return false when the args provided don't match the arg def's type.");
+            Assert.IsTrue(errors, "[ArgDef][consume] consume should generate an error when the args provided don't match the arg def's type.");
+        }
+        [TestMethod]
+        public void consumeTestOrderedEncounteredWrongType()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.name = "test";
+            testDef.type = typeof(int);
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { "a" }, 0, 1);
+            ParsedArgs pArgs = new ParsedArgs();
+            bool result = testDef.consume(vArgs, pArgs);
+            bool errors = testDef.errorOccured();
+            Assert.IsFalse(result, "[ArgDef][consume] consume should return false when the args provided don't match the arg def's type.");
+            Assert.IsTrue(errors, "[ArgDef][consume] consume should generate an error when the args provided don't match the arg def's type.");
+        }
     }
 
     public class FakeUnitTestType {}
