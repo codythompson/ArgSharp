@@ -68,7 +68,18 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgDefBadOptionsException), "An exception should be thrown as no type parser exists for the type FakeUnitTestType.")]
+        [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown if the value of argCount is less than zero.")]
+        public void parseInitNegativeArgCountException()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.argLabels.Add("-t");
+            testDef.argCount = -1;
+            testDef.parseInit(ArgTypeParser.basicParsers);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown as no type parser exists for the type FakeUnitTestType.")]
         public void parseInitNoTypeParserException()
         {
             ArgDef testDef = new ArgDef();
@@ -78,7 +89,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgDefBadOptionsException), "An exception should be thrown when no label or name is provided before pareInit is called.")]
+        [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown when no label or name is provided before pareInit is called.")]
         public void parseInitNoNameException()
         {
             ArgDef testDef = new ArgDef();
@@ -86,7 +97,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgDefBadOptionsException), "An exception should be thrown when an ordered arg has a non zero argCount.")]
+        [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown when an ordered arg has a non zero argCount.")]
         public void parseInitOrderedArgCount1Exception()
         {
             ArgDef testDef = new ArgDef();
@@ -96,7 +107,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgDefBadOptionsException), "An exception should be thrown when an ordered arg has a non zero argCount.")]
+        [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown when an ordered arg has a non zero argCount.")]
         public void parseInitOrderedArgCountNeg1Exception()
         {
             ArgDef testDef = new ArgDef();
@@ -106,7 +117,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgDefBadOptionsException), "An exception should be thrown when an ordered arg has a non zero argCount.")]
+        [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown when an ordered arg has a non zero argCount.")]
         public void parseInitOrderedArgCountMaxIntException()
         {
             ArgDef testDef = new ArgDef();
@@ -116,12 +127,22 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgDefBadOptionsException), "An exception should be thrown when an ordered arg has a non zero argCount.")]
+        [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown when an ordered arg has a non zero argCount.")]
         public void parseInitOrderedArgCountMinIntException()
         {
             ArgDef testDef = new ArgDef();
             testDef.name = "test";
             testDef.argCount = int.MinValue;
+            testDef.parseInit(ArgTypeParser.basicParsers);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown when a labeled arg with argCount equal to zero has a type of than bool or string (string is considered default and will be changed to bool in this case).")]
+        public void parseInitOrderedArgCount0NonBoolException()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.argLabels.Add("-t");
+            testDef.type = typeof(double);
             testDef.parseInit(ArgTypeParser.basicParsers);
         }
     }

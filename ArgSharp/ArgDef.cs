@@ -31,7 +31,16 @@ namespace ArgSharp
 
         public virtual void parseInit(Dictionary<Type, ArgTypeParser> typeParsers)
         {
+            instanceCount = 0;
+            errorMessages.Clear();
+
             this.typeParsers = typeParsers;
+
+            if (argCount < 0)
+            {
+                throw new ArgDefBadOptionsException("ArgDef.argCount must be non negative.");
+            }
+
             if (!typeParsers.ContainsKey(type))
             {
                 throw new ArgDefBadOptionsException(string.Format("Can't use type '{0}', no matching ArgTypeParser found.", type));
@@ -45,8 +54,6 @@ namespace ArgSharp
                     throw new ArgDefBadOptionsException(string.Format("At least one argLabel or a name must be provided."));
                 }
             }
-            instanceCount = 0;
-            errorMessages.Clear();
             if (isOrderedArg())
             {
                 if (argCount > 0)
