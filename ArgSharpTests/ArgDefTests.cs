@@ -52,19 +52,19 @@ namespace ArgSharpTests
             testDef.name = "atest";
             testDef.parseInit(ArgTypeParser.basicParsers);
 
-            Assert.AreEqual<bool>(true, testDef.required, "[ArgDef][parseInit] Ordered args should be required.");
+            Assert.IsTrue(testDef.required, "[ArgDef][parseInit] Ordered args should be required.");
 
             testDef = new ArgDef();
             testDef.argLabels.Add("-t");
             testDef.parseInit(ArgTypeParser.basicParsers);
 
-            Assert.AreEqual<bool>(false, testDef.required, "[ArgDef][parseInit] Labeled args should not be required unless required was explicitly set.");
+            Assert.IsFalse(testDef.required, "[ArgDef][parseInit] Labeled args should not be required unless required was explicitly set.");
 
             testDef = new ArgDef();
             testDef.argLabels.Add("-t");
             testDef.required = true;
 
-            Assert.AreEqual<bool>(true, testDef.required, "[ArgDef][parseInit] Labeled args should be required when required is explicitly set.");
+            Assert.IsTrue(testDef.required, "[ArgDef][parseInit] Labeled args should be required when required is explicitly set.");
         }
 
         [TestMethod]
@@ -182,7 +182,7 @@ namespace ArgSharpTests
             testDef.consume(vArgs, pArgs);
             bool result2 = testDef.consume(vArgs, pArgs);
             bool errors = testDef.errorOccured();
-            Assert.AreEqual<bool>(false, result2, "[ArgDef][consume] consume should return false when a label is encountered twice.");
+            Assert.IsFalse(result2, "[ArgDef][consume] consume should return false when a label is encountered twice.");
             Assert.IsTrue(errors, "[ArgDef][consume] consume should generate an error message when a label is encountered twice.");
         }
         [TestMethod]
