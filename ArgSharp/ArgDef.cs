@@ -220,6 +220,7 @@ namespace ArgSharp
             if (!argCountIsRemainderOfArgs && vArgs.length < argCount + 1)
             {
                 errorMessages.Add(string.Format("The option '{0}' expects {1} following arguments, only {2} were encountered.", name, argCount, vArgs.length - 1));
+                return false;
             }
 
             if (type != typeof(string))
