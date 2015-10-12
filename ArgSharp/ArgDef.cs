@@ -10,6 +10,7 @@ namespace ArgSharp
         public char[] labelPrefixes = new char [] {'-'};
         public int argCount = 0;
         public bool argCountIsRemainderOfArgs = false;
+        public bool createArrayForArgCount1 = false;
         public Type type = typeof(string);
         public object defaultValue;
         public string helpMessage = "";
@@ -284,6 +285,10 @@ namespace ArgSharp
                 object val;
                 typeParsers[type].tryConvert(vArgs[i], type, out val);
                 vals[i - 1] = val;
+            }
+            if (!createArrayForArgCount1 && vals.Length == 1)
+            {
+                return vals[0];
             }
             return vals;
         }
