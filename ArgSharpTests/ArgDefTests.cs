@@ -259,6 +259,24 @@ namespace ArgSharpTests
             Assert.IsTrue(pArgs.containsKey("t"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
             Assert.IsFalse(pArgs.getValue<bool>("t"), "[ArgDef][consume] consume should set the appropriate value for the given arg name when encountered.");
         }
+
+        [TestMethod]
+        public void consumeTestLabeledBoolAsArray()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.argLabels.Add("-t");
+            testDef.type = typeof(bool);
+            testDef.argCount = 1;
+            testDef.createArrayForArgCount1 = true;
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { "-t", "false" });
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            Assert.IsTrue(pArgs.containsKey("t"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+            bool[] result = pArgs.getArray<bool>("t");
+            Assert.AreEqual<int>(1, result.Length, "[ArgDef][consume] consume should create an array of size 1 when argCount is 1 and createArrayForArgCount1 is true");
+            Assert.IsFalse(result[0], "[ArgDef][consume] consume should set the appropriate value for the given arg name when encountered.");
+        }
     }
 
     public class FakeUnitTestType {}
