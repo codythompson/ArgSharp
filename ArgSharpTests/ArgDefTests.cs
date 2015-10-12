@@ -228,6 +228,37 @@ namespace ArgSharpTests
             Assert.IsFalse(result, "[ArgDef][consume] consume should return false when the args provided don't match the arg def's type.");
             Assert.IsTrue(errors, "[ArgDef][consume] consume should generate an error when the args provided don't match the arg def's type.");
         }
+
+        /*
+         * The following test the private getValue method via consume
+         */
+        [TestMethod]
+        public void consumeTestFlag()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.argLabels.Add("-t");
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { "-t" });
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            Assert.IsTrue(pArgs.containsKey("t"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+            Assert.IsTrue(pArgs.getValue<bool>("t"), "[ArgDef][consume] consume should set the appropriate value for the given arg name when encountered.");
+        }
+
+        [TestMethod]
+        public void consumeTestLabeledBool()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.argLabels.Add("-t");
+            testDef.type = typeof(bool);
+            testDef.argCount = 1;
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { "-t", "false" });
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            Assert.IsTrue(pArgs.containsKey("t"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+            Assert.IsFalse(pArgs.getValue<bool>("t"), "[ArgDef][consume] consume should set the appropriate value for the given arg name when encountered.");
+        }
     }
 
     public class FakeUnitTestType {}
