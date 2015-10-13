@@ -277,6 +277,64 @@ namespace ArgSharpTests
             Assert.AreEqual<int>(1, result.Length, "[ArgDef][consume] consume should create an array of size 1 when argCount is 1 and createArrayForArgCount1 is true");
             Assert.IsFalse(result[0], "[ArgDef][consume] consume should set the appropriate value for the given arg name when encountered.");
         }
+
+        [TestMethod]
+        public void consumeTestLabeledInt()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.argLabels.Add("-t");
+            testDef.type = typeof(int);
+            testDef.argCount = 1;
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { "-t", "33" });
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            Assert.IsTrue(pArgs.containsKey("t"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+            Assert.AreEqual<int>(33, pArgs.getValue<int>("t"), "[ArgDef][consume] consume should set the appropriate value for the given arg name when encountered.");
+        }
+
+        [TestMethod]
+        public void consumeTestLabeledDouble()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.argLabels.Add("-t");
+            testDef.type = typeof(double);
+            testDef.argCount = 1;
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { "-t", "33.3" });
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            Assert.IsTrue(pArgs.containsKey("t"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+            Assert.AreEqual(33.3, pArgs.getValue<double>("t"), 0.01, "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+        }
+
+        [TestMethod]
+        public void consumeTestOrderedInt()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.name = "test";
+            testDef.type = typeof(int);
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { "33" });
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            Assert.IsTrue(pArgs.containsKey("test"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+            Assert.AreEqual<int>(33, pArgs.getValue<int>("test"), "[ArgDef][consume] consume should set the appropriate value for the given arg name when encountered.");
+        }
+
+        [TestMethod]
+        public void consumeTestOrderedDouble()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.name = "test";
+            testDef.type = typeof(double);
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { "33.63" });
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            Assert.IsTrue(pArgs.containsKey("test"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+            Assert.AreEqual(33.63, pArgs.getValue<double>("test"), 0.01, "[ArgDef][consume] consume should set the appropriate value for the given arg name when encountered.");
+        }
     }
 
     public class FakeUnitTestType {}
