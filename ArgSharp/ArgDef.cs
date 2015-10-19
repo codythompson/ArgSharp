@@ -262,32 +262,36 @@ namespace ArgSharp
 
         private object getValue(VirtualArray<string> vArgs)
         {
-            if (argCount == 0 && type == typeof(bool))
+            if (argCount == 0 && !argCountIsRemainderOfArgs)
             {
-                if (instanceCount > 0)
+                if (type == typeof(bool) && instanceCount > 0)
                 {
                     return true;
                 }
-            }
 
-            if (argCount == 0 && !argCountIsRemainderOfArgs)
-            {
                 object val;
                 typeParsers[type].tryConvert(vArgs[0], type, out val);
                 return val;
             }
 
+            int valOffset = -1;
+            int startIx = 1;
+            if (isOrderedArg())
+            {
+                valOffset = 0;
+                startIx = 0;
+            }
             int lastIx = argCount;
             if (argCountIsRemainderOfArgs)
             {
                 lastIx = vArgs.length - 1;
             }
-            object[] vals = new object[lastIx];
-            for (int i = 1; i <= lastIx; i++)
+            object[] vals = new object[lastIx + 1 + valOffset];
+            for (int i = startIx; i <= lastIx; i++)
             {
                 object val;
                 typeParsers[type].tryConvert(vArgs[i], type, out val);
-                vals[i - 1] = val;
+                vals[i + valOffset] = val;
             }
             if (!createArrayForArgCount1 && vals.Length == 1)
             {
