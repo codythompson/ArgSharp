@@ -89,7 +89,10 @@ namespace ArgSharp
             {
                 vArgs.moveStart(vArgs.endIndexExclusive);
             }
-            vArgs.moveStartBy(argCount + 1);
+            else
+            {
+                vArgs.moveStartBy(argCount + 1);
+            }
             return true;
         }
 

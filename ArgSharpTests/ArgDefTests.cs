@@ -335,6 +335,180 @@ namespace ArgSharpTests
             Assert.IsTrue(pArgs.containsKey("test"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
             Assert.AreEqual(33.63, pArgs.getValue<double>("test"), 0.01, "[ArgDef][consume] consume should set the appropriate value for the given arg name when encountered.");
         }
+
+        [TestMethod]
+        public void consumeTestListOfInt()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.argLabels.Add("-t");
+            testDef.type = typeof(int);
+            testDef.argCount = 3;
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            int[] testVals = new int[]{-234, 0, 234234};
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { "-t", testVals[0].ToString(), testVals[1].ToString(), testVals[2].ToString() });
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            Assert.IsTrue(pArgs.containsKey("t"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+            int[] result = pArgs.getArray<int>("t");
+            int i = 0;
+            foreach (int val in result)
+            {
+                Assert.AreEqual<int>(testVals[i], val, "[ArgDef][consume] consume resulted in an array with unexpected values.");
+                i++;
+            }
+        }
+
+        [TestMethod]
+        public void consumeTestListOfDouble()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.argLabels.Add("-t");
+            testDef.type = typeof(double);
+            testDef.argCount = 3;
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            double[] testVals = new double[] { -234.556, 0, 234234.234 };
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { "-t", testVals[0].ToString(), testVals[1].ToString(), testVals[2].ToString() });
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            Assert.IsTrue(pArgs.containsKey("t"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+            double[] result = pArgs.getArray<double>("t");
+            int i = 0;
+            foreach (double val in result)
+            {
+                Assert.AreEqual<double>(testVals[i], val, "[ArgDef][consume] consume resulted in an array with unexpected values.");
+                i++;
+            }
+        }
+
+        [TestMethod]
+        public void consumeTestListOfBool()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.argLabels.Add("-t");
+            testDef.type = typeof(bool);
+            testDef.argCount = 2;
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            bool[] testVals = new bool[] { false, true };
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { "-t", testVals[0].ToString(), testVals[1].ToString() });
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            Assert.IsTrue(pArgs.containsKey("t"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+            bool[] result = pArgs.getArray<bool>("t");
+            int i = 0;
+            foreach (bool val in result)
+            {
+                Assert.AreEqual<bool>(testVals[i], val, "[ArgDef][consume] consume resulted in an array with unexpected values.");
+                i++;
+            }
+        }
+
+        [TestMethod]
+        public void consumeTestListOfString()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.argLabels.Add("-t");
+            testDef.argCount = 5;
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            string[] testVals = new string[] { "ok", "", "what ", "yeyeah", "turn down" };
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { "-t", testVals[0].ToString(), testVals[1].ToString(), testVals[2].ToString(), testVals[3].ToString(), testVals[4].ToString() });
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            Assert.IsTrue(pArgs.containsKey("t"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+            string[] result = pArgs.getArray<string>("t");
+            int i = 0;
+            foreach (string val in result)
+            {
+                Assert.AreEqual<string>(testVals[i], val, "[ArgDef][consume] consume resulted in an array with unexpected values.");
+                i++;
+            }
+        }
+
+        [TestMethod]
+        public void consumeTestRemainingDouble()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.name = "t";
+            testDef.type = typeof(double);
+            testDef.argCountIsRemainderOfArgs = true;
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            double[] testVals = new double[] { -234.556, 0, 234234.234 };
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { testVals[0].ToString(), testVals[1].ToString(), testVals[2].ToString() });
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            Assert.IsTrue(pArgs.containsKey("t"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+            double[] result = pArgs.getArray<double>("t");
+            int i = 0;
+            foreach (double val in result)
+            {
+                Assert.AreEqual<double>(testVals[i], val, "[ArgDef][consume] consume resulted in an array with unexpected values.");
+                i++;
+            }
+        }
+
+        [TestMethod]
+        public void consumeTestRemainingInt()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.name = "t";
+            testDef.type = typeof(int);
+            testDef.argCountIsRemainderOfArgs = true;
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            int[] testVals = new int[] { -234, 0, 234234};
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { testVals[0].ToString(), testVals[1].ToString(), testVals[2].ToString() });
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            Assert.IsTrue(pArgs.containsKey("t"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+            int[] result = pArgs.getArray<int>("t");
+            int i = 0;
+            foreach (int val in result)
+            {
+                Assert.AreEqual<int>(testVals[i], val, "[ArgDef][consume] consume resulted in an array with unexpected values.");
+                i++;
+            }
+        }
+
+        [TestMethod]
+        public void consumeTestRemainingBool()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.name = "t";
+            testDef.type = typeof(bool);
+            testDef.argCountIsRemainderOfArgs = true;
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            bool[] testVals = new bool[] { true, false, true };
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { testVals[0].ToString(), testVals[1].ToString(), testVals[2].ToString() });
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            Assert.IsTrue(pArgs.containsKey("t"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+            bool[] result = pArgs.getArray<bool>("t");
+            int i = 0;
+            foreach (bool val in result)
+            {
+                Assert.AreEqual<bool>(testVals[i], val, "[ArgDef][consume] consume resulted in an array with unexpected values.");
+                i++;
+            }
+        }
+
+        [TestMethod]
+        public void consumeTestRemainingString()
+        {
+            ArgDef testDef = new ArgDef();
+            testDef.name = "t";
+            testDef.argCountIsRemainderOfArgs = true;
+            testDef.parseInit(ArgTypeParser.basicParsers);
+            string[] testVals = new string[] { "what", "the", "french toast" };
+            VirtualArray<string> vArgs = new VirtualArray<string>(new string[] { testVals[0].ToString(), testVals[1].ToString(), testVals[2].ToString() });
+            ParsedArgs pArgs = new ParsedArgs();
+            testDef.consume(vArgs, pArgs);
+            Assert.IsTrue(pArgs.containsKey("t"), "[ArgDef][consume] consume should add a value to the passed in ParsedArgs when the appropriate args are given");
+            string[] result = pArgs.getArray<string>("t");
+            int i = 0;
+            foreach (string val in result)
+            {
+                Assert.AreEqual<string>(testVals[i], val, "[ArgDef][consume] consume resulted in an array with unexpected values.");
+                i++;
+            }
+        }
     }
 
     public class FakeUnitTestType {}
