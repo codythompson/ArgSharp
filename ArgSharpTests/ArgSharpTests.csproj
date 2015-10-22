@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ArgDefTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VirtualArrayTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArgSharp\ArgSharp.csproj">
