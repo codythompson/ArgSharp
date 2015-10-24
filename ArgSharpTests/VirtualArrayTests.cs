@@ -15,7 +15,8 @@ namespace ArgSharpTests
 
 
         // TODO length tests that make use of moveEndBy
-        [TestMethod TestCategory("VirtualArray")]
+        [TestMethod]
+        [TestCategory("VirtualArray")]
         public void legthTest0()
         {
             VirtualArray<object> testArray = makeVirtArray(0);
@@ -34,7 +35,8 @@ namespace ArgSharpTests
             Assert.AreEqual(0, testArray.length, "Unexpected length, expected length 0");
         }
 
-        [TestMethod TestCategory("VirtualArray")]
+        [TestMethod]
+        [TestCategory("VirtualArray")]
         public void legthTest1()
         {
             VirtualArray<object> testArray = makeVirtArray(1);
@@ -47,7 +49,8 @@ namespace ArgSharpTests
             Assert.AreEqual(1, testArray.length, "Unexpected length, expected length 1");
         }
 
-        [TestMethod TestCategory("VirtualArray")]
+        [TestMethod]
+        [TestCategory("VirtualArray")]
         public void legthTest2()
         {
             VirtualArray<object> testArray = makeVirtArray(2);
