@@ -59,5 +59,14 @@ namespace ArgSharpTests
             testArray.moveStartBy(1);
             Assert.AreNotEqual(2, testArray.length, "Unexpected length, did not expect length 2");
         }
+
+        [TestMethod]
+        [TestCategory("VirtualArray")]
+        public void resizeTest()
+        {
+            VirtualArray<object> testArray = makeVirtArray(2);
+            testArray.resize(1, 2);
+            Assert.AreEqual(1, testArray.length, "Expected length to be 1");
+        }
     }
 }
