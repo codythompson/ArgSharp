@@ -68,5 +68,32 @@ namespace ArgSharpTests
             testArray.resize(1, 2);
             Assert.AreEqual(1, testArray.length, "Expected length to be 1");
         }
+
+        [TestMethod]
+        [TestCategory("VirtualArray")]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void resizeTestGreaterThanEnd()
+        {
+            VirtualArray<object> testArray = makeVirtArray(3);
+            testArray.resize(2, 1);
+        }
+
+        [TestMethod]
+        [TestCategory("VirtualArray")]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void resizeTestLessThan0()
+        {
+            VirtualArray<object> testArray = makeVirtArray(3);
+            testArray.resize(-2, -1);
+        }
+
+        [TestMethod]
+        [TestCategory("VirtualArray")]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void resizeTestGreaterThanBase()
+        {
+            VirtualArray<object> testArray = makeVirtArray(3);
+            testArray.resize(0, 4);
+        }
     }
 }
