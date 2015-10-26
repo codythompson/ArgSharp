@@ -11,6 +11,7 @@ namespace ArgSharpTests
          * The following test the parseInit method
          */
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void parseInitTestLabelName()
         {
             ArgDef testDef = new ArgDef();
@@ -21,6 +22,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void parseInitTestType()
         {
             ArgDef testDef = new ArgDef();
@@ -46,6 +48,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void parseInitTestRequired()
         {
             ArgDef testDef = new ArgDef();
@@ -68,6 +71,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown if the value of argCount is less than zero.")]
         public void parseInitNegativeArgCountException()
         {
@@ -79,6 +83,7 @@ namespace ArgSharpTests
 
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown as no type parser exists for the type FakeUnitTestType.")]
         public void parseInitNoTypeParserException()
         {
@@ -89,6 +94,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown when no label or name is provided before pareInit is called.")]
         public void parseInitNoNameException()
         {
@@ -97,6 +103,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown when an ordered arg has a non zero argCount.")]
         public void parseInitOrderedArgCount1Exception()
         {
@@ -107,6 +114,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown when an ordered arg has a non zero argCount.")]
         public void parseInitOrderedArgCountNeg1Exception()
         {
@@ -117,6 +125,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown when an ordered arg has a non zero argCount.")]
         public void parseInitOrderedArgCountMaxIntException()
         {
@@ -127,6 +136,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown when an ordered arg has a non zero argCount.")]
         public void parseInitOrderedArgCountMinIntException()
         {
@@ -137,6 +147,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         [ExpectedException(typeof(ArgDefBadOptionsException), "[ArgDef][parseInit] An exception should be thrown when a labeled arg with argCount equal to zero has a type of than bool or string (string is considered default and will be changed to bool in this case).")]
         public void parseInitOrderedArgCount0NonBoolException()
         {
@@ -150,6 +161,7 @@ namespace ArgSharpTests
          * The following test the private isConsumeable method via consume
          */
         [TestMethod]
+        [TestCategory("ArgDef")]
         [ExpectedException(typeof(ArgDefException), "[ArgDef][consume] An exception should be thrown when the length of vArgs is less than 1")]
         public void consumeTestNoVArgs()
         {
@@ -161,6 +173,7 @@ namespace ArgSharpTests
             testDef.consume(vArgs, pArgs);
         }
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestFalseOnNoLabelMatch()
         {
             ArgDef testDef = new ArgDef();
@@ -172,6 +185,7 @@ namespace ArgSharpTests
             Assert.IsFalse(result, "[ArgDef][consume] consume should return false when no label matches the input");
         }
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestMultipleOptionEncounters()
         {
             ArgDef testDef = new ArgDef();
@@ -186,6 +200,7 @@ namespace ArgSharpTests
             Assert.IsTrue(errors, "[ArgDef][consume] consume should generate an error message when a label is encountered twice.");
         }
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestWrongNumberOfFollowingArgs()
         {
             ArgDef testDef = new ArgDef();
@@ -200,6 +215,7 @@ namespace ArgSharpTests
             Assert.IsTrue(errors, "[ArgDef][consume] consume should generate an error message when there are less remaining args than argCount.");
         }
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestLabelEncounteredWrongType()
         {
             ArgDef testDef = new ArgDef();
@@ -215,6 +231,7 @@ namespace ArgSharpTests
             Assert.IsTrue(errors, "[ArgDef][consume] consume should generate an error when the args provided don't match the arg def's type.");
         }
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestOrderedEncounteredWrongType()
         {
             ArgDef testDef = new ArgDef();
@@ -233,6 +250,7 @@ namespace ArgSharpTests
          * The following test the private getValue method via consume
          */
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestFlag()
         {
             ArgDef testDef = new ArgDef();
@@ -246,6 +264,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestLabeledBool()
         {
             ArgDef testDef = new ArgDef();
@@ -261,6 +280,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestLabeledBoolAsArray()
         {
             ArgDef testDef = new ArgDef();
@@ -279,6 +299,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestLabeledInt()
         {
             ArgDef testDef = new ArgDef();
@@ -294,6 +315,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestLabeledDouble()
         {
             ArgDef testDef = new ArgDef();
@@ -309,6 +331,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestOrderedInt()
         {
             ArgDef testDef = new ArgDef();
@@ -323,6 +346,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestOrderedDouble()
         {
             ArgDef testDef = new ArgDef();
@@ -337,6 +361,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestListOfInt()
         {
             ArgDef testDef = new ArgDef();
@@ -359,6 +384,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestListOfDouble()
         {
             ArgDef testDef = new ArgDef();
@@ -381,6 +407,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestListOfBool()
         {
             ArgDef testDef = new ArgDef();
@@ -403,6 +430,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestListOfString()
         {
             ArgDef testDef = new ArgDef();
@@ -424,6 +452,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestRemainingDouble()
         {
             ArgDef testDef = new ArgDef();
@@ -446,6 +475,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestRemainingInt()
         {
             ArgDef testDef = new ArgDef();
@@ -468,6 +498,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestRemainingBool()
         {
             ArgDef testDef = new ArgDef();
@@ -490,6 +521,7 @@ namespace ArgSharpTests
         }
 
         [TestMethod]
+        [TestCategory("ArgDef")]
         public void consumeTestRemainingString()
         {
             ArgDef testDef = new ArgDef();
