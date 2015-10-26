@@ -35,11 +35,15 @@ namespace ArgSharp
         {
             if (startIndexInclusive > endIndexExclusive)
             {
-                throw new ArgumentException(); // TODO use a custom exception here
+                throw new IndexOutOfRangeException(String.Format("The new start index ('{0}' was given) cannot be greater than the end index ({1}).", startIndexInclusive, endIndexExclusive));
             }
-            if (startIndexInclusive < 0 || endIndexExclusive > baseArray.Length)
+            else if (startIndexInclusive < 0)
             {
-                throw new IndexOutOfRangeException(); // TODO use a custom exception here
+                throw new IndexOutOfRangeException(String.Format("The new start index ('{0}' was given) cannot be less than 0.", startIndexInclusive));
+            }
+            else if (endIndexExclusive > baseArray.Length)
+            {
+                throw new IndexOutOfRangeException(String.Format("The new start index ('{0}' was given) cannot be greater than the length of the base array ({1}).", startIndexInclusive, baseArray.Length));
             }
 
             start = startIndexInclusive;
@@ -75,7 +79,7 @@ namespace ArgSharp
         {
             if (!isInBounds(index))
             {
-                throw new IndexOutOfRangeException(); // TODO use a custom exception here
+                throw new IndexOutOfRangeException(string.Format("The index '{0}' is not in the range [0 - {1})", index, length));
             }
             int absIx = getAbsoluteIndex(index);
             return baseArray[absIx];
@@ -85,7 +89,7 @@ namespace ArgSharp
         {
             if (!isInBounds(index))
             {
-                throw new IndexOutOfRangeException(); // TODO use a custom exception here
+                throw new IndexOutOfRangeException(string.Format("The index '{0}' is not in the range [0 - {1})", index, length));
             }
             int absIx = getAbsoluteIndex(index);
             baseArray[absIx] = element;
