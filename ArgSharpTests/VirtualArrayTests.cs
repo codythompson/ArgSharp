@@ -95,5 +95,20 @@ namespace ArgSharpTests
             VirtualArray<object> testArray = makeVirtArray(3);
             testArray.resize(0, 4);
         }
+
+        [TestMethod]
+        [TestCategory("VirtualArray")]
+        public void isInBoundsTest()
+        {
+            VirtualArray<object> testArray = makeVirtArray(3);
+            Assert.IsFalse(testArray.isInBounds(-1), "[VirtualArray][isInBounds] Should return false for values less than 0");
+            Assert.IsFalse(testArray.isInBounds(-10), "[VirtualArray][isInBounds] Should return false for values less than 0");
+            Assert.IsFalse(testArray.isInBounds(3), "[VirtualArray][isInBounds] Should return false for values greater than or equal to the length of the array");
+            Assert.IsFalse(testArray.isInBounds(4), "[VirtualArray][isInBounds] Should return false for values greater than or equal to the length of the array");
+            Assert.IsFalse(testArray.isInBounds(400), "[VirtualArray][isInBounds] Should return false for values greater than or equal to the length of the array");
+            Assert.IsTrue(testArray.isInBounds(0), "[VirtualArray][isInBounds] Should return true for values greater than or equal to 0 and less than the length of the array");
+            Assert.IsTrue(testArray.isInBounds(1), "[VirtualArray][isInBounds] Should return true for values greater than or equal to 0 and less than the length of the array");
+            Assert.IsTrue(testArray.isInBounds(2), "[VirtualArray][isInBounds] Should return true for values greater than or equal to 0 and less than the length of the array");
+        }
     }
 }
