@@ -71,7 +71,7 @@ namespace ArgSharpTests
 
         [TestMethod]
         [TestCategory("VirtualArray")]
-        [ExpectedException(typeof(IndexOutOfRangeException))]
+        [ExpectedException(typeof(IndexOutOfRangeException), "[VirtualArray][resize] An Exception should be thrown when the start index is greater than the end index.")]
         public void resizeTestGreaterThanEnd()
         {
             VirtualArray<object> testArray = makeVirtArray(3);
@@ -80,7 +80,7 @@ namespace ArgSharpTests
 
         [TestMethod]
         [TestCategory("VirtualArray")]
-        [ExpectedException(typeof(IndexOutOfRangeException))]
+        [ExpectedException(typeof(IndexOutOfRangeException), "[VirtualArray][resize] An Exception should be thrown when the start index is less than 0.")]
         public void resizeTestLessThan0()
         {
             VirtualArray<object> testArray = makeVirtArray(3);
@@ -89,7 +89,7 @@ namespace ArgSharpTests
 
         [TestMethod]
         [TestCategory("VirtualArray")]
-        [ExpectedException(typeof(IndexOutOfRangeException))]
+        [ExpectedException(typeof(IndexOutOfRangeException), "[VirtualArray][resize] An Exception should be thrown when the end index is greater than the length of the base array.")]
         public void resizeTestGreaterThanBase()
         {
             VirtualArray<object> testArray = makeVirtArray(3);
