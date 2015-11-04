@@ -148,5 +148,45 @@ namespace ArgSharpTests
             testArray.moveStartBy(1);
             object obj = testArray[-1];
         }
+
+        [TestMethod]
+        [TestCategory("VirtualArray")]
+        public void setTest()
+        {
+            int[] ints = new int[3] { 0, 1, 2 };
+            VirtualArray<int> testArray = new VirtualArray<int>(ints);
+
+            testArray[0] = -77;
+            testArray[1] = -88;
+            testArray[2] = -99;
+
+            Assert.AreEqual(-77, testArray[0], string.Format("[VirtualArray][set] expected {0}, received {1}", -77, testArray[0]));
+            Assert.AreEqual(-88, testArray[1], string.Format("[VirtualArray][set] expected {0}, received {1}", -88, testArray[1]));
+            Assert.AreEqual(-99, testArray[2], string.Format("[VirtualArray][set] expected {0}, received {1}", -99, testArray[2]));
+
+            testArray.moveStartBy(1);
+            testArray[0] += 88;
+            Assert.AreEqual(0, testArray[0], string.Format("[VirtualArray][set] expected {0}, received {1}", 0, testArray[0]));
+        }
+
+        [TestMethod]
+        [TestCategory("VirtualArray")]
+        [ExpectedException(typeof(IndexOutOfRangeException), "[VirtualArray][set] an IndexOutOfRange exception should be thrown when the index is not in range of the current state of the Array")]
+        public void setTestOutOfBoundsPositive()
+        {
+            VirtualArray<object> testArray = makeVirtArray(2);
+            testArray.moveEndBy(-1);
+            testArray[1] = null;
+        }
+
+        [TestMethod]
+        [TestCategory("VirtualArray")]
+        [ExpectedException(typeof(IndexOutOfRangeException), "[VirtualArray][set] an IndexOutOfRange exception should be thrown when the index is not in range of the current state of the Array")]
+        public void setTestOutOfBoundsNegative()
+        {
+            VirtualArray<object> testArray = makeVirtArray(2);
+            testArray.moveStartBy(1);
+            testArray[-1] = null;
+        }
     }
 }
