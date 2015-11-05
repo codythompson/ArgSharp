@@ -188,5 +188,19 @@ namespace ArgSharpTests
             testArray.moveStartBy(1);
             testArray[-1] = null;
         }
+
+        [TestMethod]
+        [TestCategory("VirtualArray")]
+        public void toArrayTest()
+        {
+            int[] ints = new int[] { 0, 1, 2, 4 };
+            VirtualArray<int> testArray = new VirtualArray<int>(ints);
+            testArray.moveStartBy(1);
+            testArray.moveEndBy(-1);
+            int[] result = testArray.toArray();
+            Assert.AreEqual(2, result.Length, "[VirtualArray][toArray] Expected the result of toArray to have length 2");
+            Assert.AreEqual(1, result[0], "[VirtualArray][toArray] Encountered unexpected value in result of toArray.");
+            Assert.AreEqual(2, result[1], "[VirtualArray][toArray] Encountered unexpected value in result of toArray.");
+        }
     }
 }
