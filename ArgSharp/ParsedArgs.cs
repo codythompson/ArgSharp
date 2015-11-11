@@ -93,7 +93,7 @@ namespace ArgSharp
             }
 
             Type valEleType = valType.GetElementType();
-            if (valEleType != typeof(T))
+            if (valEleType != typeof(object) && valEleType != typeof(T))
             {
                 throw new ParsedArgsWrongTypeException(key, typeof(T[]));
             }
