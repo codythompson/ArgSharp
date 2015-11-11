@@ -99,5 +99,46 @@ namespace ArgSharpTests
             Assert.AreEqual(21.23123, args.getDouble("blah"), "[ParsedArgs][getDouble] Encountered unexpected return value.");
             Assert.AreEqual(0.0, args.getDouble("mmk"), "[ParsedArgs][getDouble] Encountered unexpected return value.");
         }
+
+        [TestMethod]
+        [TestCategory("ParsedArgs")]
+        [ExpectedException(typeof(ParsedArgsWrongTypeException), "[ParsedArgs][getArray] Expected a Wrong Type exception when accessing a string array using int as the type parameter.")]
+        public void getArrayTestWrongType()
+        {
+            ParsedArgs args = new ParsedArgs();
+            args.add("crazy", new string[] {"wut", "ok"});
+            args.getArray<int>("crazy");
+        }
+
+        [TestMethod]
+        [TestCategory("ParsedArgs")]
+        [ExpectedException(typeof(ParsedArgsKeyNotFoundException), "[ParsedArgs][getArray] Expected a key not found exception.")]
+        public void getArrayTestKeyNotFound()
+        {
+            ParsedArgs args = new ParsedArgs();
+            args.getArray<int>("nooope");
+        }
+
+        private void AssertAreEqual<T>(T[] expected, T[] actual, string message)
+        {
+            for (int i = 0; i < expected.Length; i++)
+            {
+                Assert.AreEqual<T>(expected[i], actual[i], message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("ParsedArgs")]
+        public void getArrayTest()
+        {
+            ParsedArgs args = new ParsedArgs();
+            args.add("crazy", new string[] { "wut", "ok" });
+            args.add("ummm yeah", new int[] { -234, 23, 0});
+            args.add("if you say so", new double[] { -234.542, 23.333333, 0.0 });
+
+            AssertAreEqual<string>(new string[] { "wut", "ok" }, args.getArray<string>("crazy"), "[ParsedArgs][getArray] Encountered unexpected return value.");
+            AssertAreEqual<int>(new int[] { -234, 23, 0}, args.getArray<int>("ummm yeah"), "[ParsedArgs][getArray] Encountered unexpected return value.");
+            AssertAreEqual<double>(new double[] { -234.542, 23.333333, 0.0 }, args.getArray<double>("if you say so"), "[ParsedArgs][getArray] Encountered unexpected return value.");
+        }
     }
 }
