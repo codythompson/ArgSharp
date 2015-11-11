@@ -140,5 +140,18 @@ namespace ArgSharpTests
             AssertAreEqual<int>(new int[] { -234, 23, 0}, args.getArray<int>("ummm yeah"), "[ParsedArgs][getArray] Encountered unexpected return value.");
             AssertAreEqual<double>(new double[] { -234.542, 23.333333, 0.0 }, args.getArray<double>("if you say so"), "[ParsedArgs][getArray] Encountered unexpected return value.");
         }
+
+        [TestMethod]
+        [TestCategory("ParsedArgs")]
+        public void getArrayTestBizzaro()
+        {
+            ParsedArgs args = new ParsedArgs();
+            args.add("weirdy weirdy 1", new object[] { "wut", "ok" });
+            args.add("weirdy weirdy 2", new object[] { -234, 23, 0 });
+            args.add("weirdy weirdy 3", new object[] { -234.542, 23.333333, 0.0 });
+            AssertAreEqual<string>(new string[] { "wut", "ok" }, args.getArray<string>("weirdy weirdy 1"), "[ParsedArgs][getArray] Encountered unexpected return value.");
+            AssertAreEqual<int>(new int[] { -234, 23, 0 }, args.getArray<int>("weirdy weirdy 2"), "[ParsedArgs][getArray] Encountered unexpected return value.");
+            AssertAreEqual<double>(new double[] { -234.542, 23.333333, 0.0 }, args.getArray<double>("weirdy weirdy 3"), "[ParsedArgs][getArray] Encountered unexpected return value.");
+        }
     }
 }
