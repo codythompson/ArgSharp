@@ -36,12 +36,14 @@ namespace ArgSharpExampleProj
             argParser.addArgDef(orderedLast);
 
             ParsedArgs pArgs = null;
+            bool exceptions = false;
             try
             {
                 pArgs = argParser.parseArgs(args);
             }
             catch (Exception e)
             {
+                exceptions = true;
                 object message = e.Message;
                 if (e.Message == null) {
                     message = e;
@@ -55,6 +57,7 @@ namespace ArgSharpExampleProj
             Console.WriteLine("\n[Temp debug] ParsedArgs:\n");
             Console.WriteLine(pArgs);
             Console.WriteLine("\n[Temp debug] end ParsedArgs:\n");
+            Console.WriteLine("--------------------------------------\nException Thrown?:{0}\nOption Error(s)?:{1}\n--------------------------------------", exceptions, pArgs.errorOccured());
 
             Console.ReadKey();
         }
