@@ -80,6 +80,29 @@ namespace ArgSharp
 
         public T[] getArray<T>(string key)
         {
+            if (!args.ContainsKey(key))
+            {
+                throw new ParsedArgsKeyNotFoundException(key);
+            }
+            object preCastVal = args[key];
+            Type valType = preCastVal.GetType();
+
+            if (!valType.IsArray)
+            {
+                throw new ParsedArgsValueNotArrayException(key);
+            }
+
+            Type valEleType = valType.GetElementType();
+            if (valEleType != typeof(T))
+            {
+                throw new ParsedArgsWrongTypeException(key, typeof(T[]));
+            }
+
+            if (valEleType != typeof(object))
+            {
+                return (T[])preCastVal;
+            }
+
             object[] vals = getValue<object[]>(key);
             T[] pVals = new T[vals.Length];
             int i = 0;
@@ -148,5 +171,9 @@ namespace ArgSharp
     public class ParsedArgsWrongTypeException : ParsedArgsException
     {
         public ParsedArgsWrongTypeException(string key, Type type) : base(string.Format("The value associated with key '{0}' is not a {1}.", key, type)) { }
+    }
+    public class ParsedArgsValueNotArrayException : ParsedArgsException
+    {
+        public ParsedArgsValueNotArrayException(string key) : base(string.Format("The value associated with key '{0}' is not an array.", key)) {}
     }
 }
