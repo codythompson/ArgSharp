@@ -1,4 +1,7 @@
-﻿REFACTOR: Subclass LabeledArg from OrderedArg to hide options that ordered args shouldn't have
+﻿Def do this:
+Add option (that should probably default to true) to break out of option parsing when the first error is encountered.
+
+Maybe do these:
+REFACTOR: Subclass LabeledArg from OrderedArg to hide options that ordered args shouldn't have
 ArgDef.getUsageString - better formatting
-VirtualArray - throw a custom exception instead of index out of bounds
-ArgTypeParser - custom exception(s)
+
