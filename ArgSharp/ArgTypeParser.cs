@@ -26,6 +26,11 @@ namespace ArgSharp
     {
         public override bool tryConvert(string arg, out object result)
         {
+            result = null;
+            if (arg == null)
+            {
+                return false;
+            }
             result = arg;
             return true;
         }
