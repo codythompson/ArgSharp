@@ -12,17 +12,17 @@ namespace ArgSharp
         static ArgTypeParser()
         {
             basicParsers = new Dictionary<Type, ArgTypeParser>();
-            basicParsers.Add(typeof(string), new stringParser());
-            basicParsers.Add(typeof(int), new intParser());
-            basicParsers.Add(typeof(double), new doubleParser());
-            basicParsers.Add(typeof(bool), new boolParser());
+            basicParsers.Add(typeof(string), new StringParser());
+            basicParsers.Add(typeof(int), new IntParser());
+            basicParsers.Add(typeof(double), new DoubleParser());
+            basicParsers.Add(typeof(bool), new BoolParser());
         }
         
 
         public abstract bool tryConvert(string arg, out object result);
     }
 
-    public class stringParser : ArgTypeParser
+    public class StringParser : ArgTypeParser
     {
         public override bool tryConvert(string arg, out object result)
         {
@@ -31,7 +31,7 @@ namespace ArgSharp
         }
     }
 
-    public class intParser : ArgTypeParser
+    public class IntParser : ArgTypeParser
     {
         public override bool tryConvert(string arg, out object result)
         {
@@ -46,7 +46,7 @@ namespace ArgSharp
         }
     }
 
-    public class doubleParser : ArgTypeParser
+    public class DoubleParser : ArgTypeParser
     {
         public override bool tryConvert(string arg, out object result)
         {
@@ -61,7 +61,7 @@ namespace ArgSharp
         }
     }
 
-    public class boolParser : ArgTypeParser
+    public class BoolParser : ArgTypeParser
     {
         public override bool tryConvert(string arg, out object result)
         {
