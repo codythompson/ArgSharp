@@ -19,29 +19,25 @@ namespace ArgSharp
         }
         
 
-        public abstract bool tryConvert(string arg, Type type, out object result);
+        public abstract bool tryConvert(string arg, out object result);
     }
 
     public class stringParser : ArgTypeParser
     {
-        public override bool tryConvert(string arg, Type type, out object result)
+        public override bool tryConvert(string arg, out object result)
         {
             result = arg;
-            if (type != typeof(string))
-            {
-                return false;
-            }
             return true;
         }
     }
 
     public class intParser : ArgTypeParser
     {
-        public override bool tryConvert(string arg, Type type, out object result)
+        public override bool tryConvert(string arg, out object result)
         {
             result = null;
             int middleMan;
-            if (type != typeof(int) || !int.TryParse(arg, out middleMan))
+            if (!int.TryParse(arg, out middleMan))
             {
                 return false;
             }
@@ -52,11 +48,11 @@ namespace ArgSharp
 
     public class doubleParser : ArgTypeParser
     {
-        public override bool tryConvert(string arg, Type type, out object result)
+        public override bool tryConvert(string arg, out object result)
         {
             result = null;
             double middleMan;
-            if (type != typeof(double) || !double.TryParse(arg, out middleMan))
+            if (!double.TryParse(arg, out middleMan))
             {
                 return false;
             }
@@ -67,11 +63,11 @@ namespace ArgSharp
 
     public class boolParser : ArgTypeParser
     {
-        public override bool tryConvert(string arg, Type type, out object result)
+        public override bool tryConvert(string arg, out object result)
         {
             result = null;
             bool middleMan;
-            if (type != typeof(bool) || !bool.TryParse(arg, out middleMan))
+            if (!bool.TryParse(arg, out middleMan))
             {
                 return false;
             }

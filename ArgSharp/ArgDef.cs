@@ -232,7 +232,7 @@ namespace ArgSharp
                 object dummyObj;
                 if (isOrderedArg())
                 {
-                    if (!typeParsers[type].tryConvert(vArgs[0], type, out dummyObj))
+                    if (!typeParsers[type].tryConvert(vArgs[0], out dummyObj))
                     {
                         errorMessages.Add(string.Format("The '{0}' argument expects an argument of type '{1}', unable to parse '{2}'.", name, type, vArgs[0]));
                         return false;
@@ -247,7 +247,7 @@ namespace ArgSharp
                     }
                     for (int i = 1; i <= lastIx; i++)
                     {
-                        if (!typeParsers[type].tryConvert(vArgs[i], type, out dummyObj))
+                        if (!typeParsers[type].tryConvert(vArgs[i], out dummyObj))
                         {
                             errorMessages.Add(string.Format("The '{0}' argument expects an argument of type '{1}', unable to parse '{2}'.", name, type, vArgs[i]));
                             return false;
@@ -270,7 +270,7 @@ namespace ArgSharp
                 }
 
                 object val;
-                typeParsers[type].tryConvert(vArgs[0], type, out val);
+                typeParsers[type].tryConvert(vArgs[0], out val);
                 return val;
             }
 
@@ -290,7 +290,7 @@ namespace ArgSharp
             for (int i = startIx; i <= lastIx; i++)
             {
                 object val;
-                typeParsers[type].tryConvert(vArgs[i], type, out val);
+                typeParsers[type].tryConvert(vArgs[i], out val);
                 vals[i + valOffset] = val;
             }
             if (!createArrayForArgCount1 && vals.Length == 1)
