@@ -18,5 +18,19 @@ namespace ArgSharpTests
             Assert.IsFalse(parser.tryConvert(null, out parseResult), "[StringParser][tryConvert] Expected an unsuccessful parse.");
             Assert.IsNull(parseResult, "[StringParser][tryConvert] Expected the output to be null after an unsuccessful parse.");
         }
+
+        [TestMethod]
+        [TestCategory("ArgTypeParserTests")]
+        public void intParserTest()
+        {
+            IntParser parser = new IntParser();
+            object parseResult;
+            Assert.IsTrue(parser.tryConvert("-7979", out parseResult), "[IntParser][tryConvert] Expected a successful parse.");
+            Assert.AreEqual(-7979, (int)parseResult, "[IntParser][tryConvert] Unexpected parse output.");
+            Assert.IsFalse(parser.tryConvert(null, out parseResult), "[IntParser][tryConvert] Expected an unsuccessful parse.");
+            Assert.IsNull(parseResult, "[IntParser][tryConvert] Expected the output to be null after an unsuccessful parse.");
+            Assert.IsFalse(parser.tryConvert("lkajslkdfjasdf908ulkjlk", out parseResult), "[IntParser][tryConvert] Expected an unsuccessful parse.");
+            Assert.IsNull(parseResult, "[IntParser][tryConvert] Expected the output to be null after an unsuccessful parse.");
+        }
     }
 }
