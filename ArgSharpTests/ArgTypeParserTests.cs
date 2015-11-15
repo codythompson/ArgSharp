@@ -32,5 +32,21 @@ namespace ArgSharpTests
             Assert.IsFalse(parser.tryConvert("lkajslkdfjasdf908ulkjlk", out parseResult), "[IntParser][tryConvert] Expected an unsuccessful parse.");
             Assert.IsNull(parseResult, "[IntParser][tryConvert] Expected the output to be null after an unsuccessful parse.");
         }
+
+        [TestMethod]
+        [TestCategory("ArgTypeParserTests")]
+        public void doubleParserTest()
+        {
+            DoubleParser parser = new DoubleParser();
+            object parseResult;
+            Assert.IsTrue(parser.tryConvert("-7979.98", out parseResult), "[DoubleParser][tryConvert] Expected a successful parse.");
+            Assert.AreEqual(-7979.98, (double)parseResult, "[DoubleParser][tryConvert] Unexpected parse output.");
+            Assert.IsTrue(parser.tryConvert("89", out parseResult), "[DoubleParser][tryConvert] Expected a successful parse.");
+            Assert.AreEqual(89, (double)parseResult, "[DoubleParser][tryConvert] Unexpected parse output.");
+            Assert.IsFalse(parser.tryConvert(null, out parseResult), "[DoubleParser][tryConvert] Expected an unsuccessful parse.");
+            Assert.IsNull(parseResult, "[DoubleParser][tryConvert] Expected the output to be null after an unsuccessful parse.");
+            Assert.IsFalse(parser.tryConvert("lkajslkdfjasdf908ulkjlk", out parseResult), "[DoubleParser][tryConvert] Expected an unsuccessful parse.");
+            Assert.IsNull(parseResult, "[DoubleParser][tryConvert] Expected the output to be null after an unsuccessful parse.");
+        }
     }
 }
