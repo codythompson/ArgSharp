@@ -48,5 +48,31 @@ namespace ArgSharpTests
             Assert.IsFalse(parser.tryConvert("lkajslkdfjasdf908ulkjlk", out parseResult), "[DoubleParser][tryConvert] Expected an unsuccessful parse.");
             Assert.IsNull(parseResult, "[DoubleParser][tryConvert] Expected the output to be null after an unsuccessful parse.");
         }
+
+        [TestMethod]
+        [TestCategory("ArgTypeParserTests")]
+        public void boolParserTest()
+        {
+            BoolParser parser = new BoolParser();
+            object parseResult;
+            Assert.IsTrue(parser.tryConvert("true", out parseResult), "[BoolParser][tryConvert] Expected a successful parse.");
+            Assert.IsTrue((bool)parseResult, "[BoolParser][tryConvert] Unexpected parse output.");
+            Assert.IsTrue(parser.tryConvert("True", out parseResult), "[BoolParser][tryConvert] Expected a successful parse.");
+            Assert.IsTrue((bool)parseResult, "[BoolParser][tryConvert] Unexpected parse output.");
+            Assert.IsTrue(parser.tryConvert("TRUE", out parseResult), "[BoolParser][tryConvert] Expected a successful parse.");
+            Assert.IsTrue((bool)parseResult, "[BoolParser][tryConvert] Unexpected parse output.");
+            Assert.IsTrue(parser.tryConvert("false", out parseResult), "[BoolParser][tryConvert] Expected a successful parse.");
+            Assert.IsFalse((bool)parseResult, "[BoolParser][tryConvert] Unexpected parse output.");
+            Assert.IsTrue(parser.tryConvert("False", out parseResult), "[BoolParser][tryConvert] Expected a successful parse.");
+            Assert.IsFalse((bool)parseResult, "[BoolParser][tryConvert] Unexpected parse output.");
+            Assert.IsTrue(parser.tryConvert("FALSE", out parseResult), "[BoolParser][tryConvert] Expected a successful parse.");
+            Assert.IsFalse((bool)parseResult, "[BoolParser][tryConvert] Unexpected parse output.");
+            Assert.IsFalse(parser.tryConvert(null, out parseResult), "[BoolParser][tryConvert] Expected an unsuccessful parse.");
+            Assert.IsNull(parseResult, "[BoolParser][tryConvert] Expected the output to be null after an unsuccessful parse.");
+            Assert.IsFalse(parser.tryConvert("lkjlkj", out parseResult), "[BoolParser][tryConvert] Expected an unsuccessful parse.");
+            Assert.IsNull(parseResult, "[BoolParser][tryConvert] Expected the output to be null after an unsuccessful parse.");
+            Assert.IsFalse(parser.tryConvert("", out parseResult), "[BoolParser][tryConvert] Expected an unsuccessful parse.");
+            Assert.IsNull(parseResult, "[BoolParser][tryConvert] Expected the output to be null after an unsuccessful parse.");
+        }
     }
 }
