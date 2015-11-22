@@ -21,7 +21,7 @@ namespace ArgSharpTests
             ArgumentParser argParser = new ArgumentParser("test_prog");
             argParser.addArgDef(buildOptionalString("-t"));
             ParsedArgs pArgs = argParser.parseArgs(new string[] {});
-            //Assert.AreEqual(0, pArgs.count, "Expected the parsed args to have a count of 0");
+            Assert.AreEqual(0, pArgs.count, "Expected the parsed args to have a count of 0");
         }
     }
 }
