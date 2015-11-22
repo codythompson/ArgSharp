@@ -10,6 +10,11 @@ namespace ArgSharp
 
         Dictionary<string, object> args;
 
+        public int count
+        {
+            get { return args.Count; }
+        }
+
         public ParsedArgs()
         {
             errorMessages = new List<string>();
