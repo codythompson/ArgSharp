@@ -13,6 +13,7 @@ namespace ArgSharp
         public bool createArrayForArgCount1 = false;
         public Type type = typeof(string);
         public object defaultValue;
+        public bool useDefaultIfNull = false;
         public string helpMessage = "";
         //public int minAllowedInstances = 0;
         //public int maxAllowedInstances = 1;
@@ -103,7 +104,7 @@ namespace ArgSharp
                 errorMessages.Add(string.Format("The '{0}' argument is required."));
                 return;
             }
-            if (instanceCount == 0)
+            if (instanceCount == 0 && (defaultValue != null || useDefaultIfNull))
             {
                 pArgs.add(name, defaultValue);
             }
