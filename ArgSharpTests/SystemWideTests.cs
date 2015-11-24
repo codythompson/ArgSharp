@@ -28,5 +28,14 @@ namespace ArgSharpTests
             pArgs = argParser.parseArgs(new string[] { });
             Assert.AreEqual(1, pArgs.count, "Expected the parsed args to have a count of 1");
         }
+
+        [TestMethod]
+        [TestCategory("SystemWide")]
+        public void noArgDefsTest()
+        {
+            ArgumentParser argParser = new ArgumentParser("test_prog");
+            ParsedArgs pArgs = argParser.parseArgs(new string[] { "atest1", "22", "atest2", "-notthis", "--orthis" });
+            Assert.AreEqual(0, pArgs.count, "Expected the parsed args to have a count of 0");
+        }
     }
 }
